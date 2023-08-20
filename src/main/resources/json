@@ -1,0 +1,517 @@
+[
+  {
+    "SegmentDelimiter": "~",
+    "DataElementDelimiter": "*",
+    "ISA": {
+      "AuthorizationInformationQualifier_1": "00",
+      "AuthorizationInformation_2": "          ",
+      "SecurityInformationQualifier_3": "00",
+      "SecurityInformation_4": "          ",
+      "SenderIDQualifier_5": "30",
+      "InterchangeSenderID_6": "311418743      ",
+      "ReceiverIDQualifier_7": "30",
+      "InterchangeReceiverID_8": "9999999999     ",
+      "InterchangeDate_9": "230501",
+      "InterchangeTime_10": "1046",
+      "InterchangeControlStandardsIdentifier_11": "^",
+      "InterchangeControlVersionNumber_12": "00501",
+      "InterchangeControlNumber_13": "682952406",
+      "AcknowledgementRequested_14": "0",
+      "UsageIndicator_15": "P",
+      "ComponentElementSeparator_16": ":"
+    },
+    "Groups": [
+      {
+        "GS": {
+          "CodeIdentifyingInformationType_1": "BE",
+          "SenderIDCode_2": "311418743",
+          "ReceiverIDCode_3": "9999999999",
+          "Date_4": "20230501",
+          "Time_5": "1046",
+          "GroupControlNumber_6": "682952406",
+          "TransactionTypeCode_7": "X",
+          "VersionAndRelease_8": "005010X220A1"
+        },
+        "Transactions": [
+          {
+            "ST": {
+              "TransactionSetIdentifierCode_01": "834",
+              "TransactionSetControlNumber_02": "000000001",
+              "ImplementationConventionPreference_03": "005010X220A1"
+            },
+            "BGN_BeginningSegment": {
+              "TransactionSetPurposeCode_01": "00",
+              "TransactionSetReferenceNumber_02": "682952406",
+              "TransactionSetCreationDate_03": "20230501",
+              "TransactionSetCreationTime_04": "1046",
+              "TimeZoneCode_05": "ET",
+              "ActionCode_08": "4"
+            },
+            "REF_TransactionSetPolicyNumber": {
+              "ReferenceIdentificationQualifier_01": "0F",
+              "MemberGrouporPolicyNumber_02": "001022763",
+              "Description_03": "1",
+              "ReferenceIdentifier_04": {
+                "ReferenceIdentificationQualifier_01": "1",
+                "ReferenceIdentification_02": "1",
+                "ReferenceIdentificationQualifier_03": "1",
+                "ReferenceIdentification_04": "1",
+                "ReferenceIdentificationQualifier_05": "1",
+                "ReferenceIdentification_06": "1"
+              }
+            },
+            "DTP_FileEffectiveDate": [
+              {
+                "DateTimeQualifier_01": "007",
+                "DateTimePeriodFormatQualifier_02": "D8",
+                "DateTimePeriod_03": "20230501"
+              }
+            ],
+            "QTY_TransactionSetControlTotals": [
+              {
+                "QuantityQualifier_01": "99",
+                "AmbulancePatientCount_02": "99",
+                "CompositeUnitOfMeasure_03": {
+                  "UnitorBasisforMeasurementCode_01": "1",
+                  "Exponent_02": "2",
+                  "Multiplier_03": "3",
+                  "UnitorBasisforMeasurementCode_04": "4",
+                  "Exponent_05": "5",
+                  "Multiplier_06": "6",
+                  "UnitorBasisforMeasurementCode_07": "7",
+                  "Exponent_08": "8",
+                  "Multiplier_09": "9",
+                  "UnitorBasisforMeasurementCode_10": "10",
+                  "Exponent_11": "11",
+                  "Multiplier_12": "12",
+                  "UnitorBasisforMeasurementCode_13": "13",
+                  "Exponent_14": "14",
+                  "Multiplier_15": "15"
+                },
+                "FreeformInformation_04": "99"
+              },
+              {
+                "QuantityQualifier_01": "99",
+                "AmbulancePatientCount_02": "99",
+                "CompositeUnitOfMeasure_03": {
+                  "UnitorBasisforMeasurementCode_01": "1",
+                  "Exponent_02": "2",
+                  "Multiplier_03": "3",
+                  "UnitorBasisforMeasurementCode_04": "4",
+                  "Exponent_05": "5",
+                  "Multiplier_06": "6",
+                  "UnitorBasisforMeasurementCode_07": "7",
+                  "Exponent_08": "8",
+                  "Multiplier_09": "9",
+                  "UnitorBasisforMeasurementCode_10": "10",
+                  "Exponent_11": "11",
+                  "Multiplier_12": "12",
+                  "UnitorBasisforMeasurementCode_13": "13",
+                  "Exponent_14": "14",
+                  "Multiplier_15": "15"
+                },
+                "FreeformInformation_04": "99"
+              }
+            ],
+            "AllN1": {
+              "Loop1000A": {
+                "N1_SponsorName": {
+                  "EntityIdentifierCode_01": "P5",
+                  "PremiumPayerName_02": "S&S HEALTH",
+                  "IdentificationCodeQualifier_03": "FI",
+                  "IntermediaryBankIdentifier_04": "311418743"
+                }
+              },
+              "Loop1000B": {
+                "N1_Payer": {
+                  "EntityIdentifierCode_01": "IN",
+                  "PremiumPayerName_02": "MEDXOOM",
+                  "IdentificationCodeQualifier_03": "FI",
+                  "IntermediaryBankIdentifier_04": "9999999999",
+                  "EntityRelationshipCode_05": "1",
+                  "EntityIdentifierCode_06": "2"
+                }
+              },
+              "Loop1000C": [
+                {
+                  "N1_TPA_BrokerName": {
+                    "EntityIdentifierCode_01": "TV",
+                    "IdentificationCodeQualifier_03": "FI",
+                    "IntermediaryBankIdentifier_04": "123356799"
+                  },
+                  "Loop1100C": {
+                    "ACT_TPA_BrokerAccountInformation": {
+                      "TPAorBrokerAccountNumber_01": "IN",
+                      "Name_02": "MEDXOOM",
+                      "IdentificationCodeQualifier_03": "FI",
+                      "IdentificationCode_04": "9999999999",
+                      "AccountNumberQualifier_05": "1",
+                      "TPAorBrokerAccountNumber_06": "2"
+                    }
+                  }
+                },
+                {
+                  "N1_TPA_BrokerName": {
+                    "EntityIdentifierCode_01": "TV",
+                    "IdentificationCodeQualifier_03": "FI",
+                    "IntermediaryBankIdentifier_04": "123356799"
+                  },
+                  "Loop1100C": {
+                    "ACT_TPA_BrokerAccountInformation": {
+                      "TPAorBrokerAccountNumber_01": "IN",
+                      "Name_02": "MEDXOOM",
+                      "IdentificationCodeQualifier_03": "FI",
+                      "IdentificationCode_04": "9999999999",
+                      "AccountNumberQualifier_05": "1",
+                      "TPAorBrokerAccountNumber_06": "2"
+                    }
+                  }
+                }
+              ]
+            },
+            "Loop2000": [
+              {
+                "INS_MemberLevelDetail": {
+                  "InsuredIndicator_01": "Y",
+                  "IndividualRelationshipCode_02": "18",
+                  "MaintenanceTypeCode_03": "030",
+                  "MaintenanceReasonCode_04": "XN",
+                  "BenefitStatusCode_05": "A",
+                  "MedicareStatusCode_06": {
+                    "MedicarePlanCode_01": "E"
+                  },
+                  "EmploymentStatusCode_08": "FT",
+                  "YesNoConditionorResponseCode_10": "N"
+                },
+                "AllREF": {
+                  "REF_SubscriberIdentifier": {
+                    "ReferenceIdentificationQualifier_01": "0F",
+                    "MemberGrouporPolicyNumber_02": "001022763"
+                  },
+                  "REF_MemberPolicyNumber": {
+                    "ReferenceIdentificationQualifier_01": "1L",
+                    "MemberGrouporPolicyNumber_02": "10091"
+                  },
+                  "REF_MemberSupplementalIdentifier": [
+                    {
+                      "ReferenceIdentificationQualifier_01": "23",
+                      "MemberGrouporPolicyNumber_02": "ME0990214"
+                    },
+                    {
+                      "ReferenceIdentificationQualifier_01": "DX",
+                      "MemberGrouporPolicyNumber_02": "1000"
+                    },
+                    {
+                      "ReferenceIdentificationQualifier_01": "ZZ",
+                      "MemberGrouporPolicyNumber_02": "01"
+                    }
+                  ]
+                },
+                "DTP_MemberLevelDates": [
+                  {
+                    "DateTimeQualifier_01": "336",
+                    "DateTimePeriodFormatQualifier_02": "D8",
+                    "DateTimePeriod_03": "20191018"
+                  },
+                  {
+                    "DateTimeQualifier_01": "356",
+                    "DateTimePeriodFormatQualifier_02": "D8",
+                    "DateTimePeriod_03": "20220901"
+                  }
+                ],
+                "AllNM1": {
+                  "Loop2100A": {
+                    "NM1_MemberName": {
+                      "EntityIdentifierCode_01": "IL",
+                      "EntityTypeQualifier_02": "1",
+                      "ResponseContactLastorOrganizationName_03": "BROWN",
+                      "ResponseContactFirstName_04": "TIMOTHY",
+                      "ResponseContactMiddleName_05": "P",
+                      "IdentificationCodeQualifier_08": "34",
+                      "ResponseContactIdentifier_09": "001022763"
+                    },
+                    "PER_MemberCommunicationsNumbers": {
+                      "ContactFunctionCode_01": "IP",
+                      "CommunicationNumberQualifier_03": "TE",
+                      "ResponseContactCommunicationNumber_04": "6072795055",
+                      "CommunicationNumberQualifier_05": "EM",
+                      "ResponseContactCommunicationNumber_06": "TIMOTH.BROWN@TURBOENG.NET"
+                    },
+                    "N3_MemberResidenceStreetAddress": {
+                      "ResponseContactAddressLine_01": "214 BUTTERMILK LN"
+                    },
+                    "N4_MemberCity_State_ZIPCode": {
+                      "AdditionalPatientInformationContactCityName_01": "ITHICA",
+                      "AdditionalPatientInformationContactStateCode_02": "NY",
+                      "AdditionalPatientInformationContactPostalZoneorZIPCode_03": "14850"
+                    },
+                    "DMG_MemberDemographics": {
+                      "DateTimePeriodFormatQualifier_01": "D8",
+                      "DependentBirthDate_02": "19641130",
+                      "DependentGenderCode_03": "M",
+                      "MaritalStatusCode_04": "M"
+                    }
+                  }
+                },
+                "Loop2300": [
+                  {
+                    "HD_HealthCoverage": {
+                      "MaintenanceTypeCode_01": "030",
+                      "InsuranceLineCode_03": "PDG",
+                      "PlanCoverageDescription_04": "MVPG",
+                      "CoverageLevelCode_05": "FAM"
+                    },
+                    "DTP_HealthCoverageDates": [
+                      {
+                        "DateTimeQualifier_01": "348",
+                        "DateTimePeriodFormatQualifier_02": "D8",
+                        "DateTimePeriod_03": "20220901"
+                      }
+                    ]
+                  },
+                  {
+                    "HD_HealthCoverage": {
+                      "MaintenanceTypeCode_01": "030",
+                      "InsuranceLineCode_03": "HLT",
+                      "PlanCoverageDescription_04": "MVPG",
+                      "CoverageLevelCode_05": "FAM"
+                    },
+                    "DTP_HealthCoverageDates": [
+                      {
+                        "DateTimeQualifier_01": "348",
+                        "DateTimePeriodFormatQualifier_02": "D8",
+                        "DateTimePeriod_03": "20230101"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "INS_MemberLevelDetail": {
+                  "InsuredIndicator_01": "N",
+                  "IndividualRelationshipCode_02": "01",
+                  "MaintenanceTypeCode_03": "030",
+                  "MaintenanceReasonCode_04": "XN",
+                  "BenefitStatusCode_05": "A",
+                  "MedicareStatusCode_06": {
+                    "MedicarePlanCode_01": "E"
+                  },
+                  "YesNoConditionorResponseCode_10": "N"
+                },
+                "AllREF": {
+                  "REF_SubscriberIdentifier": {
+                    "ReferenceIdentificationQualifier_01": "0F",
+                    "MemberGrouporPolicyNumber_02": "001022763"
+                  },
+                  "REF_MemberPolicyNumber": {
+                    "ReferenceIdentificationQualifier_01": "1L",
+                    "MemberGrouporPolicyNumber_02": "10091"
+                  },
+                  "REF_MemberSupplementalIdentifier": [
+                    {
+                      "ReferenceIdentificationQualifier_01": "23",
+                      "MemberGrouporPolicyNumber_02": "ME0990214"
+                    },
+                    {
+                      "ReferenceIdentificationQualifier_01": "DX",
+                      "MemberGrouporPolicyNumber_02": "1000"
+                    },
+                    {
+                      "ReferenceIdentificationQualifier_01": "ZZ",
+                      "MemberGrouporPolicyNumber_02": "02"
+                    }
+                  ]
+                },
+                "DTP_MemberLevelDates": [
+                  {
+                    "DateTimeQualifier_01": "356",
+                    "DateTimePeriodFormatQualifier_02": "D8",
+                    "DateTimePeriod_03": "20220901"
+                  }
+                ],
+                "AllNM1": {
+                  "Loop2100A": {
+                    "NM1_MemberName": {
+                      "EntityIdentifierCode_01": "IL",
+                      "EntityTypeQualifier_02": "1",
+                      "ResponseContactLastorOrganizationName_03": "BROWN",
+                      "ResponseContactFirstName_04": "PAULA",
+                      "ResponseContactMiddleName_05": "C",
+                      "IdentificationCodeQualifier_08": "34",
+                      "ResponseContactIdentifier_09": "272756011"
+                    },
+                    "N3_MemberResidenceStreetAddress": {
+                      "ResponseContactAddressLine_01": "214 BUTTERMILK LANE"
+                    },
+                    "N4_MemberCity_State_ZIPCode": {
+                      "AdditionalPatientInformationContactCityName_01": "ITHICA",
+                      "AdditionalPatientInformationContactStateCode_02": "NY",
+                      "AdditionalPatientInformationContactPostalZoneorZIPCode_03": "14850"
+                    },
+                    "DMG_MemberDemographics": {
+                      "DateTimePeriodFormatQualifier_01": "D8",
+                      "DependentBirthDate_02": "19680519",
+                      "DependentGenderCode_03": "F"
+                    }
+                  }
+                },
+                "Loop2300": [
+                  {
+                    "HD_HealthCoverage": {
+                      "MaintenanceTypeCode_01": "030",
+                      "InsuranceLineCode_03": "PDG",
+                      "PlanCoverageDescription_04": "MVPG"
+                    },
+                    "DTP_HealthCoverageDates": [
+                      {
+                        "DateTimeQualifier_01": "348",
+                        "DateTimePeriodFormatQualifier_02": "D8",
+                        "DateTimePeriod_03": "20220901"
+                      }
+                    ]
+                  },
+                  {
+                    "HD_HealthCoverage": {
+                      "MaintenanceTypeCode_01": "030",
+                      "InsuranceLineCode_03": "HLT",
+                      "PlanCoverageDescription_04": "MVPG"
+                    },
+                    "DTP_HealthCoverageDates": [
+                      {
+                        "DateTimeQualifier_01": "348",
+                        "DateTimePeriodFormatQualifier_02": "D8",
+                        "DateTimePeriod_03": "20230101"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "INS_MemberLevelDetail": {
+                  "InsuredIndicator_01": "N",
+                  "IndividualRelationshipCode_02": "19",
+                  "MaintenanceTypeCode_03": "030",
+                  "MaintenanceReasonCode_04": "XN",
+                  "BenefitStatusCode_05": "A",
+                  "MedicareStatusCode_06": {
+                    "MedicarePlanCode_01": "E"
+                  },
+                  "YesNoConditionorResponseCode_10": "N"
+                },
+                "AllREF": {
+                  "REF_SubscriberIdentifier": {
+                    "ReferenceIdentificationQualifier_01": "0F",
+                    "MemberGrouporPolicyNumber_02": "001022763"
+                  },
+                  "REF_MemberPolicyNumber": {
+                    "ReferenceIdentificationQualifier_01": "1L",
+                    "MemberGrouporPolicyNumber_02": "10091"
+                  },
+                  "REF_MemberSupplementalIdentifier": [
+                    {
+                      "ReferenceIdentificationQualifier_01": "23",
+                      "MemberGrouporPolicyNumber_02": "ME0990214"
+                    },
+                    {
+                      "ReferenceIdentificationQualifier_01": "DX",
+                      "MemberGrouporPolicyNumber_02": "1000"
+                    },
+                    {
+                      "ReferenceIdentificationQualifier_01": "ZZ",
+                      "MemberGrouporPolicyNumber_02": "03"
+                    }
+                  ]
+                },
+                "DTP_MemberLevelDates": [
+                  {
+                    "DateTimeQualifier_01": "356",
+                    "DateTimePeriodFormatQualifier_02": "D8",
+                    "DateTimePeriod_03": "20220901"
+                  }
+                ],
+                "AllNM1": {
+                  "Loop2100A": {
+                    "NM1_MemberName": {
+                      "EntityIdentifierCode_01": "IL",
+                      "EntityTypeQualifier_02": "1",
+                      "ResponseContactLastorOrganizationName_03": "BROWN",
+                      "ResponseContactFirstName_04": "JASON",
+                      "ResponseContactMiddleName_05": "M",
+                      "IdentificationCodeQualifier_08": "34",
+                      "ResponseContactIdentifier_09": "854726481"
+                    },
+                    "N3_MemberResidenceStreetAddress": {
+                      "ResponseContactAddressLine_01": "214 BUTTERMILK LANE"
+                    },
+                    "N4_MemberCity_State_ZIPCode": {
+                      "AdditionalPatientInformationContactCityName_01": "ITHICA",
+                      "AdditionalPatientInformationContactStateCode_02": "NY",
+                      "AdditionalPatientInformationContactPostalZoneorZIPCode_03": "14850"
+                    },
+                    "DMG_MemberDemographics": {
+                      "DateTimePeriodFormatQualifier_01": "D8",
+                      "DependentBirthDate_02": "19990412",
+                      "DependentGenderCode_03": "M"
+                    }
+                  }
+                },
+                "Loop2300": [
+                  {
+                    "HD_HealthCoverage": {
+                      "MaintenanceTypeCode_01": "030",
+                      "InsuranceLineCode_03": "PDG",
+                      "PlanCoverageDescription_04": "MVPG"
+                    },
+                    "DTP_HealthCoverageDates": [
+                      {
+                        "DateTimeQualifier_01": "348",
+                        "DateTimePeriodFormatQualifier_02": "D8",
+                        "DateTimePeriod_03": "20220901"
+                      }
+                    ]
+                  },
+                  {
+                    "HD_HealthCoverage": {
+                      "MaintenanceTypeCode_01": "030",
+                      "InsuranceLineCode_03": "HLT",
+                      "PlanCoverageDescription_04": "MVPG"
+                    },
+                    "DTP_HealthCoverageDates": [
+                      {
+                        "DateTimeQualifier_01": "348",
+                        "DateTimePeriodFormatQualifier_02": "D8",
+                        "DateTimePeriod_03": "20230101"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "SE": {
+              "NumberofIncludedSegments_01": "53",
+              "TransactionSetControlNumber_02": "000000001"
+            },
+            "Model": "EdiNation.X12.HIPAA.005010"
+          }
+        ],
+        "GETrailers": [
+          {
+            "NumberOfIncludedSets_1": "1",
+            "GroupControlNumber_2": "682952406"
+          }
+        ]
+      }
+    ],
+    "IEATrailers": [
+      {
+        "NumberOfIncludedGroups_1": "1",
+        "InterchangeControlNumber_2": "682952406"
+      }
+    ],
+    "Result": {
+      "LastIndex": 64,
+      "Details": [],
+      "Status": "success"
+    }
+  }
+]

@@ -1,0 +1,2831 @@
+-------------------------------------------------------------------------------------------------
+                MESSAGES
+-------------------------------------------------------------------------------------------------
+
+                834
+
+Pos     Seg     Name                                             Req Rep
+------- ------- ------------------------------------------------ --- ----------------------------
+00010   ST                                                       M   1
+00020   BGN     BeginningSegment                                 M   1
+00030   REF     TransactionSetPolicyNumber                       C   1
+00040   DTP     FileEffectiveDate                                C   >1
+00050   QTY     TransactionSetControlTotals                      C   3
+
+00060           ---- Any Of ------------------------------------ M   1--------------------------+
+                                                                                                |
+00070           ---- Loop 1 1000A  ----------------------------- M   1-------------------------+|
+00080   N1      SponsorName                                      M   1-------------------------+|
+                                                                                                |
+00090           ---- Loop 2 1000B  ----------------------------- M   1-------------------------+|
+00100   N1      Payer                                            M   1-------------------------+|
+                                                                                                |
+00110           ---- Loop 3 1000C  ----------------------------- C   2-------------------------+|
+00120   N1      TPA_BrokerName                                   M   1                         ||
+                                                                                               ||
+00130           ---- Loop 4 1100C  ----------------------------- C   1------------------------+||
+00140   ACT     TPA_BrokerAccountInformation                     M   1------------------------+++
+
+00150           ---- Loop 5 2000  ------------------------------ M   >1-------------------------+
+00160   INS     MemberLevelDetail                                M   1                          |
+                                                                                                |
+00170           ---- Any Of ------------------------------------ M   1-------------------------+|
+00180   REF     SubscriberIdentifier                             M   1                         ||
+00190   REF     MemberPolicyNumber                               C   1                         ||
+00200   REF     MemberSupplementalIdentifier                     C   13------------------------+|
+00210   DTP     MemberLevelDates                                 C   24                         |
+                                                                                                |
+00220           ---- Any Of ------------------------------------ M   1-------------------------+|
+                                                                                               ||
+00230           ---- Loop 6 2100A  ----------------------------- M   1------------------------+||
+00240   NM1     MemberName                                       M   1                        |||
+00250   PER     MemberCommunicationsNumbers                      C   1                        |||
+00260   N3      MemberResidenceStreetAddress                     C   1                        |||
+00270   N4      MemberCity_State_ZIPCode                         C   1                        |||
+00280   DMG     MemberDemographics                               C   1                        |||
+00290   EC      EmploymentClass                                  C   >1                       |||
+00300   ICM     MemberIncome                                     C   1                        |||
+00310   AMT     MemberPolicyAmounts                              C   7                        |||
+00320   HLH     MemberHealthInformation                          C   1                        |||
+00330   LUI     MemberLanguage                                   C   >1-----------------------+||
+                                                                                               ||
+00340           ---- Loop 7 2100B  ----------------------------- C   1------------------------+||
+00350   NM1     IncorrectMemberName                              M   1                        |||
+00360   DMG     IncorrectMemberDemographics                      C   1------------------------+||
+                                                                                               ||
+00370           ---- Loop 8 2100C  ----------------------------- C   1------------------------+||
+00380   NM1     MemberMailingAddress                             M   1                        |||
+00390   N3      MemberMailStreetAddress                          M   1                        |||
+00400   N4      MemberMailCity_State_ZIPCode                     M   1------------------------+||
+                                                                                               ||
+00410           ---- Loop 9 2100D  ----------------------------- C   3------------------------+||
+00420   NM1     MemberEmployer                                   M   1                        |||
+00430   PER     MemberEmployerCommunicationsNumbers              C   1                        |||
+00440   N3      MemberEmployerStreetAddress                      C   1                        |||
+00450   N4      MemberEmployerCity_State_ZIPCode                 C   1------------------------+||
+                                                                                               ||
+00460           ---- Loop 10 2100E  ---------------------------- C   3------------------------+||
+00470   NM1     MemberSchool                                     M   1                        |||
+00480   PER     MemberSchoolCommmunicationsNumbers               C   1                        |||
+00490   N3      MemberSchoolStreetAddress                        C   1                        |||
+00500   N4      MemberSchoolCity_State_ZIPCode                   C   1------------------------+||
+                                                                                               ||
+00510           ---- Loop 11 2100F  ---------------------------- C   1------------------------+||
+00520   NM1     CustodialParent                                  M   1                        |||
+00530   PER     CustodialParentCommunicationsNumbers             C   1                        |||
+00540   N3      CustodialParentStreetAddress                     C   1                        |||
+00550   N4      CustodialParentCity_State_ZIPCode                C   1------------------------+||
+                                                                                               ||
+00560           ---- Loop 12 2100G  ---------------------------- C   13-----------------------+||
+00570   NM1     ResponsiblePerson                                M   1                        |||
+00580   PER     ResponsiblePersonCommunicationsNumbers           C   1                        |||
+00590   N3      ResponsiblePersonStreetAddress                   C   1                        |||
+00600   N4      ResponsiblePersonCity_State_ZIPCode              C   1------------------------+||
+                                                                                               ||
+00610           ---- Loop 13 2100H  ---------------------------- C   1------------------------+||
+00620   NM1     DropOffLocation                                  M   1                        |||
+00630   N3      DropOffLocationStreetAddress                     C   1                        |||
+00640   N4      DropOffLocationCity_State_ZIPCode                C   1------------------------++|
+                                                                                                |
+00650           ---- Loop 14 2200  ----------------------------- C   >1------------------------+|
+00660   DSB     DisabilityInformation                            M   1                         ||
+00670   DTP     DisabilityEligibilityDates                       C   2-------------------------+|
+                                                                                                |
+00680           ---- Loop 15 2300  ----------------------------- C   99------------------------+|
+00690   HD      HealthCoverage                                   M   1                         ||
+00700   DTP     HealthCoverageDates                              M   6                         ||
+00710   AMT     HealthCoveragePolicy                             C   9                         ||
+                                                                                               ||
+00720           ---- Any Of ------------------------------------ C   1------------------------+||
+00730   REF     HealthCoveragePolicyNumber                       C   14                       |||
+00740   REF     PriorCoverageMonths                              C   1------------------------+||
+00750   IDC     IdentificationCard                               C   3                         ||
+                                                                                               ||
+00760           ---- Loop 16 2310 SeqCount: 1 ------------------ C   30-----------------------+||
+00770   LX      ProviderInformation                              M   1                        |||
+00780   NM1     ProviderName                                     M   1                        |||
+00790   N3      ProviderAddress                                  C   2                        |||
+00800   N4      ProviderCity_State_ZIPCode                       C   1                        |||
+00810   PER     ProviderCommunicationsNumbers                    C   2                        |||
+00820   PLA     ProviderChangeReason                             C   1------------------------+||
+                                                                                               ||
+00830           ---- Loop 17 2320  ----------------------------- C   5------------------------+||
+00840   COB     CoordinationofBenefits                           M   1                        |||
+00850   REF     AdditionalCoordinationofBenefitsIdentifiers      C   4                        |||
+00860   DTP     CoordinationofBenefitsEligibilityDates           C   2                        |||
+                                                                                              |||
+00870           ---- Loop 18 2330  ----------------------------- C   3-----------------------+|||
+00880   NM1     CoordinationofBenefitsRelatedEntity              M   1                       ||||
+00890   N3      CoordinationofBenefitsRelatedEntityAddress       C   1                       ||||
+00900   N4      CoordinationofBenefitsOtherInsuranceCompanyCi    C   1                       ||||
+00910   PER     AdministrativeCommunicationsContact              C   1-----------------------+++|
+                                                                                                |
+00920           ---- Loop 19 LS  ------------------------------- C   1-------------------------+|
+00930   LS      AdditionalReportingCategories                    M   1                         ||
+                                                                                               ||
+00940           ---- Loop 20 2700 SeqCount: 1 ------------------ C   >1-----------------------+||
+00950   LX      MemberReportingCategories                        M   1                        |||
+                                                                                              |||
+00960           ---- Loop 21 2750  ----------------------------- C   1-----------------------+|||
+00970   N1      ReportingCategory                                M   1                       ||||
+00980   REF     ReportingCategoryReference                       C   1                       ||||
+00990   DTP     ReportingCategoryDate                            C   1-----------------------++||
+01000   LE      AdditionalReportingCategoriesTermination         M   1-------------------------++
+01010   SE                                                       M   1
+
+
+-------------------------------------------------------------------------------------------------
+                SEGMENTS
+-------------------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------------------------
+
+                ST
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+ST1     143     TransactionSetIdentifierCode                     M   1     3     3     AN
+
+ST2     329     TransactionSetControlNumber                      M   1     4     9     AN
+
+ST3     1705    ImplementationConventionPreference               C   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                BGN
+                BeginningSegment
+
+        Syntax: C0504
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+BGN1    353     TransactionSetPurposeCode                        M   1     1     1     353_6
+
+BGN2    127     TransactionSetReferenceNumber                    M   1     1     50    AN
+
+BGN3    373     TransactionSetCreationDate                       M   1     8     8     DT
+
+BGN4    337     TransactionSetCreationTime                       M   1     4     8     TM
+
+BGN5    623     TimeZoneCode                                     C   1     1     1     623
+
+BGN6    127     OriginalTransactionSetReferenceNumber            C   1     1     50    AN
+
+BGN7    640     TransactionTypeCode                              C   1     1     1     640_2
+
+BGN8    306     ActionCode                                       M   1     1     1     306_8
+
+BGN9    786     SecurityLevelCode                                C   1     1     1     786
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                TransactionSetPolicyNumber
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 M   1     1     1     128_85
+
+REF2    127     MemberGrouporPolicyNumber                        M   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                DTP
+                FileEffectiveDate
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DTP1    374     DateTimeQualifier                                C   1     1     1     374_52
+
+DTP2    1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_6
+
+DTP3    1251    DateTimePeriod                                   C   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                QTY
+                TransactionSetControlTotals
+
+        Syntax: R0204
+                E0204
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+QTY1    673     QuantityQualifier                                C   1     1     1     673_9
+
+QTY2    380     AmbulancePatientCount                            C   1     1     15    R
+
+QTY3    C001    CompositeUnitOfMeasure                           C   1
+QTY31   355     UnitorBasisforMeasurementCode                    M   1     1     1     355
+QTY32   1018    Exponent                                         C   1     1     15    R
+QTY33   649     Multiplier                                       C   1     1     10    R
+QTY34   355     UnitorBasisforMeasurementCode                    C   1     1     1     355
+QTY35   1018    Exponent                                         C   1     1     15    R
+QTY36   649     Multiplier                                       C   1     1     10    R
+QTY37   355     UnitorBasisforMeasurementCode                    C   1     1     1     355
+QTY38   1018    Exponent                                         C   1     1     15    R
+QTY39   649     Multiplier                                       C   1     1     10    R
+QTY310  355     UnitorBasisforMeasurementCode                    C   1     1     1     355
+QTY311  1018    Exponent                                         C   1     1     15    R
+QTY312  649     Multiplier                                       C   1     1     10    R
+QTY313  355     UnitorBasisforMeasurementCode                    C   1     1     1     355
+QTY314  1018    Exponent                                         C   1     1     15    R
+QTY315  649     Multiplier                                       C   1     1     10    R
+
+QTY4    61      FreeformInformation                              C   1     1     30    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N1
+                SponsorName
+
+        Syntax: R0203
+                P0304
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N11     98      EntityIdentifierCode                             M   1     1     1     98_60
+
+N12     93      PremiumPayerName                                 C   1     1     60    AN
+
+N13     66      IdentificationCodeQualifier                      M   1     1     1     66_36
+
+N14     67      IntermediaryBankIdentifier                       M   1     2     80    AN
+
+N15     706     EntityRelationshipCode                           C   1     1     1     706_3
+
+N16     98      EntityIdentifierCode                             C   1     1     1     98_19
+
+-------------------------------------------------------------------------------------------------
+
+                N1
+                Payer
+
+        Syntax: R0203
+                P0304
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N11     98      EntityIdentifierCode                             M   1     1     1     98_24
+
+N12     93      PremiumPayerName                                 C   1     1     60    AN
+
+N13     66      IdentificationCodeQualifier                      M   1     1     1     66_5
+
+N14     67      IntermediaryBankIdentifier                       M   1     2     80    AN
+
+N15     706     EntityRelationshipCode                           C   1     1     1     706_3
+
+N16     98      EntityIdentifierCode                             C   1     1     1     98_19
+
+-------------------------------------------------------------------------------------------------
+
+                N1
+                TPA_BrokerName
+
+        Syntax: R0203
+                P0304
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N11     98      EntityIdentifierCode                             M   1     1     1     98_30
+
+N12     93      PremiumPayerName                                 M   1     1     60    AN
+
+N13     66      IdentificationCodeQualifier                      M   1     1     1     66_5
+
+N14     67      IntermediaryBankIdentifier                       M   1     2     80    AN
+
+N15     706     EntityRelationshipCode                           C   1     1     1     706_3
+
+N16     98      EntityIdentifierCode                             C   1     1     1     98_19
+
+-------------------------------------------------------------------------------------------------
+
+                ACT
+                TPA_BrokerAccountInformation
+
+        Syntax: P0304
+                C0506
+                C0705
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+ACT1    508     TPAorBrokerAccountNumber                         M   1     1     35    AN
+
+ACT2    93      Name                                             C   1     1     60    AN
+
+ACT3    66      IdentificationCodeQualifier                      C   1     1     1     66_12
+
+ACT4    67      IdentificationCode                               C   1     2     80    AN
+
+ACT5    569     AccountNumberQualifier                           C   1     1     1     569_2
+
+ACT6    508     TPAorBrokerAccountNumber                         C   1     1     35    AN
+
+ACT7    352     Description                                      C   1     1     80    AN
+
+ACT8    107     PaymentMethodTypeCode                            C   1     1     1     107
+
+ACT9    1216    BenefitStatusCode                                C   1     1     1     1216_2
+
+-------------------------------------------------------------------------------------------------
+
+                INS
+                MemberLevelDetail
+
+        Syntax: P1112
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+INS1    1073    InsuredIndicator                                 M   1     1     1     1073_4
+
+INS2    1069    IndividualRelationshipCode                       M   1     1     1     1069_7
+
+INS3    875     MaintenanceTypeCode                              M   1     1     1     875_4
+
+INS4    1203    MaintenanceReasonCode                            C   1     1     1     1203_4
+
+INS5    1216    BenefitStatusCode                                M   1     1     1     1216
+
+INS6    C052    MedicareStatusCode                               C   1
+INS61   1218    MedicarePlanCode                                 M   1     1     1     1218
+INS62   1701    EligibilityReasonCode                            C   1     1     1     1701
+INS63   1701    EligibilityReasonCode                            C   1     1     1     1701
+INS64   1701    EligibilityReasonCode                            C   1     1     1     1701
+
+INS7    1219    ConsolidatedOmnibusBudgetReconciliationActCOB    C   1     1     1     1219
+
+INS8    584     EmploymentStatusCode                             C   1     1     1     584_4
+
+INS9    1220    StudentStatusCode                                C   1     1     1     1220
+
+INS10   1073    YesNoConditionorResponseCode                     C   1     1     1     1073_4
+
+INS11   1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_6
+
+INS12   1251    DateTimePeriod                                   C   1     1     35    AN
+
+INS13   1165    ConfidentialityCode                              C   1     1     1     1165_2
+
+INS14   19      CityName                                         C   1     2     30    AN
+
+INS15   156     StateorProvinceCode                              C   1     2     2     AN
+
+INS16   26      CountryCode                                      C   1     2     3     AN
+
+INS17   1470    BirthSequenceNumber                              C   1     1     9     N0
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                SubscriberIdentifier
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 M   1     1     1     128_39
+
+REF2    127     MemberGrouporPolicyNumber                        M   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                MemberPolicyNumber
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 M   1     1     1     128_48
+
+REF2    127     MemberGrouporPolicyNumber                        M   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                MemberSupplementalIdentifier
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 C   1     1     1     128_58
+
+REF2    127     MemberGrouporPolicyNumber                        C   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                DTP
+                MemberLevelDates
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DTP1    374     DateTimeQualifier                                C   1     1     1     374_17
+
+DTP2    1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_6
+
+DTP3    1251    DateTimePeriod                                   C   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                MemberName
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_35
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065
+
+NM13    1035    ResponseContactLastorOrganizationName            M   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_18
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                MemberCommunicationsNumbers
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              M   1     1     1     366_8
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     M   1     1     1     365_19
+
+PER4    364     ResponseContactCommunicationNumber               M   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                MemberResidenceStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                MemberCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_4
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                DMG
+                MemberDemographics
+
+        Syntax: P0102
+                P1011
+                C1105
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DMG1    1250    DateTimePeriodFormatQualifier                    M   1     1     1     1250_6
+
+DMG2    1251    DependentBirthDate                               M   1     1     35    AN
+
+DMG3    1068    DependentGenderCode                              M   1     1     1     1068_2
+
+DMG4    1067    MaritalStatusCode                                C   1     1     1     1067_2
+
+DMG5    C056    CompositeRaceOrEthnicityInformation              C   10
+
+        Syntax: P0203
+
+DMG51   1109    RaceorEthnicityCode                              C   1     1     1     1109_2
+DMG52   1270    CodeListQualifierCode                            C   1     1     1     1270_29
+DMG53   1271    IndustryCode                                     C   1     1     30    AN
+
+DMG6    1066    CitizenshipStatusCode                            C   1     1     1     1066_2
+
+DMG7    26      CountryCode                                      C   1     2     3     AN
+
+DMG8    659     BasisofVerificationCode                          C   1     1     1     659
+
+DMG9    380     Quantity                                         C   1     1     15    R
+
+DMG10   1270    CodeListQualifierCode                            C   1     1     1     1270_9
+
+DMG11   1271    IndustryCode                                     C   1     1     30    AN
+
+-------------------------------------------------------------------------------------------------
+
+                EC
+                EmploymentClass
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+EC1     1176    EmploymentClassCode                              C   1     1     1     1176
+
+EC2     1176    EmploymentClassCode                              C   1     1     1     1176
+
+EC3     1176    EmploymentClassCode                              C   1     1     1     1176
+
+EC4     954     PercentageasDecimal                              C   1     1     10    R
+
+EC5     1201    InformationStatusCode                            C   1     1     1     1201_2
+
+EC6     1149    OccupationCode                                   C   1     4     6     AN
+
+-------------------------------------------------------------------------------------------------
+
+                ICM
+                MemberIncome
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+ICM1    594     FrequencyCode                                    M   1     1     1     594
+
+ICM2    782     WageAmount                                       M   1     1     18    R
+
+ICM3    380     WorkHoursCount                                   C   1     1     15    R
+
+ICM4    310     LocationIdentificationCode                       C   1     1     30    AN
+
+ICM5    1214    SalaryGradeCode                                  C   1     1     5     AN
+
+ICM6    100     CurrencyCode                                     C   1     3     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                AMT
+                MemberPolicyAmounts
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+AMT1    522     AmountQualifierCode                              C   1     1     1     522_14
+
+AMT2    782     TotalClaimChargeAmount                           C   1     1     18    R
+
+AMT3    478     CreditDebitFlagCode                              C   1     1     1     478
+
+-------------------------------------------------------------------------------------------------
+
+                HLH
+                MemberHealthInformation
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+HLH1    1212    HealthRelatedCode                                M   1     1     1     1212
+
+HLH2    65      MemberHeight                                     C   1     1     8     R
+
+HLH3    81      MemberWeight                                     C   1     1     10    R
+
+HLH4    81      Weight                                           C   1     1     10    R
+
+HLH5    352     Description                                      C   1     1     80    AN
+
+HLH6    1213    CurrentHealthConditionCode                       C   1     1     1     1213
+
+HLH7    352     Description                                      C   1     1     80    AN
+
+-------------------------------------------------------------------------------------------------
+
+                LUI
+                MemberLanguage
+
+        Syntax: P0102
+                L040203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+LUI1    66      IdentificationCodeQualifier                      C   1     1     1     66_23
+
+LUI2    67      LanguageCode                                     C   1     2     80    AN
+
+LUI3    352     LanguageDescription                              C   1     1     80    AN
+
+LUI4    1303    LanguageUseIndicator                             C   1     1     1     1303
+
+LUI5    1476    LanguageProficiencyIndicator                     C   1     1     1     1476
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                IncorrectMemberName
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_40
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065
+
+NM13    1035    ResponseContactLastorOrganizationName            M   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_18
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                DMG
+                IncorrectMemberDemographics
+
+        Syntax: P0102
+                P1011
+                C1105
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DMG1    1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_6
+
+DMG2    1251    DependentBirthDate                               C   1     1     35    AN
+
+DMG3    1068    DependentGenderCode                              C   1     1     1     1068_2
+
+DMG4    1067    MaritalStatusCode                                C   1     1     1     1067_2
+
+DMG5    C056    CompositeRaceOrEthnicityInformation              C   10
+
+        Syntax: P0203
+
+DMG51   1109    RaceorEthnicityCode                              C   1     1     1     1109_2
+DMG52   1270    CodeListQualifierCode                            C   1     1     1     1270_29
+DMG53   1271    IndustryCode                                     C   1     1     30    AN
+
+DMG6    1066    CitizenshipStatusCode                            C   1     1     1     1066_2
+
+DMG7    26      CountryCode                                      C   1     2     3     AN
+
+DMG8    659     BasisofVerificationCode                          C   1     1     1     659
+
+DMG9    380     Quantity                                         C   1     1     15    R
+
+DMG10   1270    CodeListQualifierCode                            C   1     1     1     1270_9
+
+DMG11   1271    IndustryCode                                     C   1     1     30    AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                MemberMailingAddress
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_45
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065
+
+NM13    1035    ResponseContactLastorOrganizationName            C   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_12
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                MemberMailStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                MemberMailCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                MemberEmployer
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_49
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065_2
+
+NM13    1035    ResponseContactLastorOrganizationName            C   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_26
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                MemberEmployerCommunicationsNumbers
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              M   1     1     1     366
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     M   1     1     1     365_5
+
+PER4    364     ResponseContactCommunicationNumber               M   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_5
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_5
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                MemberEmployerStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                MemberEmployerCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                MemberSchool
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_52
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065_3
+
+NM13    1035    ResponseContactLastorOrganizationName            M   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_12
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                MemberSchoolCommmunicationsNumbers
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              M   1     1     1     366_3
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     M   1     1     1     365_4
+
+PER4    364     ResponseContactCommunicationNumber               M   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_4
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_4
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                MemberSchoolStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                MemberSchoolCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                CustodialParent
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065
+
+NM13    1035    ResponseContactLastorOrganizationName            M   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         M   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_18
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                CustodialParentCommunicationsNumbers
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              M   1     1     1     366_5
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     M   1     1     1     365_19
+
+PER4    364     ResponseContactCommunicationNumber               M   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_10
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                CustodialParentStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                CustodialParentCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                ResponsiblePerson
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_4
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065
+
+NM13    1035    ResponseContactLastorOrganizationName            M   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_18
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                ResponsiblePersonCommunicationsNumbers
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              M   1     1     1     366_6
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     M   1     1     1     365_19
+
+PER4    364     ResponseContactCommunicationNumber               M   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                ResponsiblePersonStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                ResponsiblePersonCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                DropOffLocation
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_7
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065
+
+NM13    1035    ResponseContactLastorOrganizationName            C   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_12
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                DropOffLocationStreetAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                DropOffLocationCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                DSB
+                DisabilityInformation
+
+        Syntax: P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DSB1    1146    DisabilityTypeCode                               M   1     1     1     1146
+
+DSB2    380     Quantity                                         C   1     1     15    R
+
+DSB3    1149    OccupationCode                                   C   1     4     6     AN
+
+DSB4    1154    WorkIntensityCode                                C   1     1     1     1154
+
+DSB5    1161    ProductOptionCode                                C   1     1     1     1161
+
+DSB6    782     MonetaryAmount                                   C   1     1     18    R
+
+DSB7    235     ProductorServiceIDQualifier                      C   1     1     1     235_14
+
+DSB8    1137    DiagnosisCode                                    C   1     1     15    AN
+
+-------------------------------------------------------------------------------------------------
+
+                DTP
+                DisabilityEligibilityDates
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DTP1    374     DateTimeQualifier                                C   1     1     1     374_28
+
+DTP2    1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_6
+
+DTP3    1251    DateTimePeriod                                   C   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                HD
+                HealthCoverage
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+HD1     875     MaintenanceTypeCode                              M   1     1     1     875
+
+HD2     1203    MaintenanceReasonCode                            C   1     1     1     1203
+
+HD3     1205    InsuranceLineCode                                M   1     1     1     1205
+
+HD4     1204    PlanCoverageDescription                          C   1     1     50    AN
+
+HD5     1207    CoverageLevelCode                                C   1     1     1     1207_5
+
+HD6     609     Count                                            C   1     1     9     N0
+
+HD7     609     Count                                            C   1     1     9     N0
+
+HD8     1209    UnderwritingDecisionCode                         C   1     1     1     1209
+
+HD9     1073    LateEnrollmentIndicator                          C   1     1     1     1073_4
+
+HD10    1211    DrugHouseCode                                    C   1     1     1     1211
+
+HD11    1073    YesNoConditionorResponseCode                     C   1     1     1     1073_2
+
+-------------------------------------------------------------------------------------------------
+
+                DTP
+                HealthCoverageDates
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DTP1    374     DateTimeQualifier                                C   1     1     1     374_34
+
+DTP2    1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_2
+
+DTP3    1251    DateTimePeriod                                   C   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                AMT
+                HealthCoveragePolicy
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+AMT1    522     AmountQualifierCode                              C   1     1     1     522_14
+
+AMT2    782     TotalClaimChargeAmount                           C   1     1     18    R
+
+AMT3    478     CreditDebitFlagCode                              C   1     1     1     478
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                HealthCoveragePolicyNumber
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 C   1     1     1     128_67
+
+REF2    127     MemberGrouporPolicyNumber                        C   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                PriorCoverageMonths
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 M   1     1     1     128_73
+
+REF2    127     MemberGrouporPolicyNumber                        M   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                IDC
+                IdentificationCard
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+IDC1    1204    PlanCoverageDescription                          C   1     1     50    AN
+
+IDC2    1215    IdentificationCardTypeCode                       C   1     1     1     1215
+
+IDC3    380     IdentificationCardCount                          C   1     1     15    R
+
+IDC4    306     ActionCode                                       C   1     1     1     306_3
+
+-------------------------------------------------------------------------------------------------
+
+                LX
+                ProviderInformation
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+LX1     554     AssignedNumber                                   M   1     1     6     N0
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                ProviderName
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_10
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065_2
+
+NM13    1035    ResponseContactLastorOrganizationName            C   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_29
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           M   1     1     1     706_2
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                ProviderAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                ProviderCity_State_ZIPCode
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_3
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                ProviderCommunicationsNumbers
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              C   1     1     1     366_4
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER4    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_19
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                PLA
+                ProviderChangeReason
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PLA1    306     ActionCode                                       M   1     1     1     306_4
+
+PLA2    98      EntityIdentifierCode                             M   1     1     1     98_12
+
+PLA3    373     ProviderEffectiveDate                            M   1     8     8     DT
+
+PLA4    337     Time                                             C   1     4     8     TM
+
+PLA5    1203    MaintenanceReasonCode                            M   1     1     1     1203_2
+
+-------------------------------------------------------------------------------------------------
+
+                COB
+                CoordinationofBenefits
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+COB1    1138    PayerResponsibilitySequenceNumberCode            M   1     1     1     1138
+
+COB2    127     MemberGrouporPolicyNumber                        C   1     1     50    AN
+
+COB3    1143    CoordinationofBenefitsCode                       M   1     1     1     1143
+
+COB4    1365    ServiceTypeCode                                  C   9     1     1     1365_5
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                AdditionalCoordinationofBenefitsIdentifiers
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 C   1     1     1     128_77
+
+REF2    127     MemberGrouporPolicyNumber                        C   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                DTP
+                CoordinationofBenefitsEligibilityDates
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DTP1    374     DateTimeQualifier                                C   1     1     1     374_39
+
+DTP2    1250    DateTimePeriodFormatQualifier                    C   1     1     1     1250_6
+
+DTP3    1251    DateTimePeriod                                   C   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                NM1
+                CoordinationofBenefitsRelatedEntity
+
+        Syntax: P0809
+                C1110
+                C1203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+NM11    98      EntityIdentifierCode                             M   1     1     1     98_15
+
+NM12    1065    EntityTypeQualifier                              M   1     1     1     1065_3
+
+NM13    1035    ResponseContactLastorOrganizationName            C   1     1     60    AN
+
+NM14    1036    ResponseContactFirstName                         C   1     1     35    AN
+
+NM15    1037    ResponseContactMiddleName                        C   1     1     25    AN
+
+NM16    1038    NamePrefix                                       C   1     1     10    AN
+
+NM17    1039    ResponseContactNameSuffix                        C   1     1     10    AN
+
+NM18    66      IdentificationCodeQualifier                      C   1     1     1     66_31
+
+NM19    67      ResponseContactIdentifier                        C   1     2     80    AN
+
+NM110   706     EntityRelationshipCode                           C   1     1     1     706_3
+
+NM111   98      EntityIdentifierCode                             C   1     1     1     98_19
+
+NM112   1035    NameLastorOrganizationName                       C   1     1     60    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N3
+                CoordinationofBenefitsRelatedEntityAddress
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N31     166     ResponseContactAddressLine                       M   1     1     55    AN
+
+N32     166     ResponseContactAddressLine                       C   1     1     55    AN
+
+-------------------------------------------------------------------------------------------------
+
+                N4
+                CoordinationofBenefitsOtherInsuranceCompanyCi
+
+        Syntax: E0207
+                C0605
+                C0704
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N41     19      AdditionalPatientInformationContactCityName      M   1     2     30    AN
+
+N42     156     AdditionalPatientInformationContactStateCode     C   1     2     2     AN
+
+N43     116     AdditionalPatientInformationContactPostalZone    C   1     3     15    AN
+
+N44     26      CountryCode                                      C   1     2     3     AN
+
+N45     309     LocationQualifier                                C   1     1     1     309_2
+
+N46     310     LocationIdentifier                               C   1     1     30    AN
+
+N47     1715    CountrySubdivisionCode                           C   1     1     3     AN
+
+-------------------------------------------------------------------------------------------------
+
+                PER
+                AdministrativeCommunicationsContact
+
+        Syntax: P0304
+                P0506
+                P0708
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+PER1    366     ContactFunctionCode                              M   1     1     1     366_7
+
+PER2    93      ResponseContactName                              C   1     1     60    AN
+
+PER3    365     CommunicationNumberQualifier                     M   1     1     1     365_8
+
+PER4    364     ResponseContactCommunicationNumber               M   1     1     256   AN
+
+PER5    365     CommunicationNumberQualifier                     C   1     1     1     365_12
+
+PER6    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER7    365     CommunicationNumberQualifier                     C   1     1     1     365_12
+
+PER8    364     ResponseContactCommunicationNumber               C   1     1     256   AN
+
+PER9    443     ContactInquiryReference                          C   1     1     20    AN
+
+-------------------------------------------------------------------------------------------------
+
+                LS
+                AdditionalReportingCategories
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+LS1     447     LoopIdentifierCode                               M   1     1     4     AN
+
+-------------------------------------------------------------------------------------------------
+
+                LX
+                MemberReportingCategories
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+LX1     554     AssignedNumber                                   M   1     1     6     N0
+
+-------------------------------------------------------------------------------------------------
+
+                N1
+                ReportingCategory
+
+        Syntax: R0203
+                P0304
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+N11     98      EntityIdentifierCode                             M   1     1     1     98_17
+
+N12     93      PremiumPayerName                                 M   1     1     60    AN
+
+N13     66      IdentificationCodeQualifier                      C   1     1     1     66_12
+
+N14     67      IntermediaryBankIdentifier                       C   1     2     80    AN
+
+N15     706     EntityRelationshipCode                           C   1     1     1     706_3
+
+N16     98      EntityIdentifierCode                             C   1     1     1     98_19
+
+-------------------------------------------------------------------------------------------------
+
+                REF
+                ReportingCategoryReference
+
+        Syntax: R0203
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+REF1    128     ReferenceIdentificationQualifier                 M   1     1     1     128_80
+
+REF2    127     MemberGrouporPolicyNumber                        M   1     1     50    AN
+
+REF3    352     Description                                      C   1     1     80    AN
+
+REF4    C040    ReferenceIdentifier                              C   1
+
+        Syntax: P0304
+                P0506
+
+REF41   128     ReferenceIdentificationQualifier                 M   1     1     1     128_20
+REF42   127     ReferenceIdentification                          M   1     1     50    AN
+REF43   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF44   127     ReferenceIdentification                          C   1     1     50    AN
+REF45   128     ReferenceIdentificationQualifier                 C   1     1     1     128_20
+REF46   127     ReferenceIdentification                          C   1     1     50    AN
+
+-------------------------------------------------------------------------------------------------
+
+                DTP
+                ReportingCategoryDate
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+DTP1    374     DateTimeQualifier                                M   1     1     1     374
+
+DTP2    1250    DateTimePeriodFormatQualifier                    M   1     1     1     1250_2
+
+DTP3    1251    DateTimePeriod                                   M   1     1     35    AN
+
+-------------------------------------------------------------------------------------------------
+
+                LE
+                AdditionalReportingCategoriesTermination
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+LE1     447     LoopIdentifierCode                               M   1     1     4     AN
+
+-------------------------------------------------------------------------------------------------
+
+                SE
+
+Ref     Code    Name                                             Req Rep   Min   Max   Type
+------- ------- ------------------------------------------------ --- ----- ----- ----- ----------
+
+SE1     96      NumberofIncludedSegments                         M   1     1     10    N0
+
+SE2     329     TransactionSetControlNumber                      M   1     4     9     AN
+
+-------------------------------------------------------------------------------------------------
+                EDI CODES
+-------------------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------------------------
+
+                1065
+
+1
+
+-------------------------------------------------------------------------------------------------
+
+                1065_2
+
+1,2
+
+-------------------------------------------------------------------------------------------------
+
+                1065_3
+
+2
+
+-------------------------------------------------------------------------------------------------
+
+                1066_2
+
+1,2,3,4,5,6,7
+
+-------------------------------------------------------------------------------------------------
+
+                1067_2
+
+B,D,I,M,R,S,U,W,X
+
+-------------------------------------------------------------------------------------------------
+
+                1068_2
+
+F,M,U
+
+-------------------------------------------------------------------------------------------------
+
+                1069_7
+
+01,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,23,24,25,26,31,38,53,60,D2,G8,G9
+
+-------------------------------------------------------------------------------------------------
+
+                107
+
+1,2,3,4,8,A,AA,AB,AC,AD,AE,AF,AG,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y
+
+-------------------------------------------------------------------------------------------------
+
+                1073_2
+
+N,U,W,Y
+
+-------------------------------------------------------------------------------------------------
+
+                1073_4
+
+N,Y
+
+-------------------------------------------------------------------------------------------------
+
+                1109_2
+
+7,8,A,B,C,D,E,F,G,H,I,J,N,O,P,Z
+
+-------------------------------------------------------------------------------------------------
+
+                1138
+
+P,S,T,U
+
+-------------------------------------------------------------------------------------------------
+
+                1143
+
+1,5,6
+
+-------------------------------------------------------------------------------------------------
+
+                1146
+
+1,2,3,4
+
+-------------------------------------------------------------------------------------------------
+
+                1154
+
+H,L,M,R
+
+-------------------------------------------------------------------------------------------------
+
+                1161
+
+1,10,11,12,13,14,15,2,28,29,3,30,31,4,5,6,7,8,9,A,B,BA,C,D,GA,N,NC,O,PD,S
+
+-------------------------------------------------------------------------------------------------
+
+                1165_2
+
+R,U
+
+-------------------------------------------------------------------------------------------------
+
+                1176
+
+01,02,03,04,05,06,07,08,09,10,11,12,17,18,19,20,21,22,23
+
+-------------------------------------------------------------------------------------------------
+
+                1201_2
+
+A,B,C,D,E,L,O,P,S,T
+
+-------------------------------------------------------------------------------------------------
+
+                1203
+
+01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,3
+3,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,4A,4B,4C,50,51,52,53,54,55,56,57,58,59,60,61,62
+,63,64,65,66,67,68,69,70,71,72,73,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,
+96,97,AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AL,EC,XB,XI,XL,XM,XN,XT,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                1203_2
+
+14,22,46,AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ
+
+-------------------------------------------------------------------------------------------------
+
+                1203_4
+
+01,02,03,04,05,06,07,08,09,10,11,14,15,16,17,18,20,21,22,25,26,27,28,29,31,32,33,37,38,39,40,41,4
+3,59,AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AL,EC,XN,XT
+
+-------------------------------------------------------------------------------------------------
+
+                1205
+
+AG,AH,AJ,AK,DCP,DEN,EPO,FAC,HE,HLT,HMO,LTC,LTD,MM,MOD,PDG,POS,PPO,PRA,STD,UR,VIS
+
+-------------------------------------------------------------------------------------------------
+
+                1207_5
+
+CHD,DEP,E1D,E2D,E3D,E5D,E6D,E7D,E8D,E9D,ECH,EMP,ESP,FAM,IND,SPC,SPO,TWO
+
+-------------------------------------------------------------------------------------------------
+
+                1209
+
+A,B,C,D,I,N,S
+
+-------------------------------------------------------------------------------------------------
+
+                1211
+
+AM,BAX,FLR,HCS,NP,PCS,THR,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                1212
+
+N,S,T,U,X
+
+-------------------------------------------------------------------------------------------------
+
+                1213
+
+1,2,3,4,5,6,7,8,9,E,F,G,P
+
+-------------------------------------------------------------------------------------------------
+
+                1215
+
+D,H,P
+
+-------------------------------------------------------------------------------------------------
+
+                1216
+
+A,C,S,T
+
+-------------------------------------------------------------------------------------------------
+
+                1216_2
+
+A,C,I,S,T,V
+
+-------------------------------------------------------------------------------------------------
+
+                1218
+
+A,B,C,D,E
+
+-------------------------------------------------------------------------------------------------
+
+                1219
+
+1,10,2,3,4,5,6,7,8,9,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                1220
+
+F,N,P
+
+-------------------------------------------------------------------------------------------------
+
+                1250_2
+
+D8,RD8
+
+-------------------------------------------------------------------------------------------------
+
+                1250_6
+
+D8
+
+-------------------------------------------------------------------------------------------------
+
+                1270_29
+
+RET
+
+-------------------------------------------------------------------------------------------------
+
+                1270_9
+
+REC
+
+-------------------------------------------------------------------------------------------------
+
+                128_20
+
+00,01,01A,01B,01C,01D,01E,01G,01H,02,03,04,05,06,07,08,09,0A,0B,0D,0E,0F,0G,0H,0I,0J,0K,0L,0M,0N,
+0P,10,11,12,13,14,15,16,17,18,19,1A,1B,1C,1D,1E,1F,1G,1H,1I,1J,1K,1L,1M,1N,1O,1P,1Q,1R,1S,1T,1U,1
+V,1W,1X,1Y,1Z,20,21,22,23,24,25,26,27,28,29,2A,2B,2C,2D,2E,2F,2G,2H,2I,2J,2K,2L,2M,2N,2O,2P,2Q,2R
+,2S,2T,2U,2V,2W,2X,2Y,2Z,30,31,32,33,34,35,36,37,38,39,3A,3B,3C,3D,3E,3F,3G,3H,3I,3J,3K,3L,3M,3N,
+3O,3P,3Q,3R,3S,3T,3U,3V,3W,3X,3Y,3Z,40,41,42,43,44,45,46,47,48,49,4A,4B,4C,4D,4E,4F,4G,4H,4I,4J,4
+K,4L,4M,4N,4O,4P,4Q,4R,4S,4T,4U,4V,4W,4X,4Y,4Z,50,51,52,53,54,55,56,57,58,59,5A,5B,5C,5D,5E,5F,5G
+,5H,5I,5J,5K,5L,5M,5N,5O,5P,5Q,5R,5S,5T,5U,5V,5W,5X,5Y,5Z,60,61,63,64,65,66,67,68,69,6A,6B,6C,6D,
+6E,6F,6G,6H,6I,6J,6K,6L,6M,6N,6O,6P,6Q,6R,6S,6T,6U,6V,6X,6Y,6Z,70,71,72,73,74,75,76,77,78,79,7A,7
+B,7C,7D,7E,7F,7G,7H,7I,7J,7K,7L,7M,7N,7O,7P,7Q,7R,7S,7T,7U,7W,7X,7Y,7Z,80,81,82,83,84,85,86,87,88
+,89,8A,8B,8C,8D,8E,8F,8G,8H,8I,8J,8K,8L,8M,8N,8O,8P,8Q,8R,8S,8U,8V,8W,8X,8Y,8Z,90,91,92,93,94,95,
+96,97,98,99,9A,9B,9C,9D,9E,9F,9G,9H,9I,9J,9K,9L,9M,9N,9P,9Q,9R,9S,9T,9U,9V,9W,9X,9Y,9Z,A0,A1,A2,A
+3,A4,A5,A7,A8,A9,AA,AAA,AAB,AAC,AAD,AAE,AAF,AAG,AAH,AAI,AAJ,AAK,AAL,AAM,AAN,AAO,AAP,AAQ,AAR,AAS,A
+AT,AAU,AAV,AAW,AAX,AAY,AAZ,AB,ABA,ABB,ABC,ABD,ABE,ABF,ABG,ABH,ABI,ABJ,ABK,ABL,ABM,ABN,ABO,ABP,ABQ
+,ABR,ABS,ABT,ABU,ABV,ABW,ABX,ABY,ABZ,AC,ACA,ACB,ACC,ACD,ACE,ACF,ACG,ACH,ACI,ACJ,ACK,ACL,ACM,ACN,A
+CO,ACP,ACQ,ACR,ACS,ACT,ACU,ACV,ACW,ACX,ACY,ACZ,AD,ADA,ADB,ADC,ADD,ADE,ADF,ADG,ADH,ADI,ADJ,ADK,ADL
+,ADM,ADN,ADO,ADP,ADQ,ADR,ADS,ADT,ADU,ADV,ADW,ADX,ADY,ADZ,AE,AEA,AEB,AEC,AED,AEE,AEF,AEG,AEH,AEI,A
+EJ,AEK,AEL,AEM,AEN,AEO,AEP,AEQ,AER,AES,AET,AEU,AEV,AEX,AEY,AEZ,AF,AFA,AFB,AFC,AFD,AFE,AFF,AFG,AFH
+,AFI,AFJ,AFK,AFL,AFM,AFN,AFO,AFP,AFQ,AFR,AFS,AFT,AFU,AFV,AFW,AFX,AFY,AFZ,AG,AGA,AGB,AGC,AGD,AGH,A
+GI,AGJ,AGK,AGL,AGM,AGN,AGO,AGP,AGQ,AH,AHC,AI,AJ,AK,AL,ALC,ALG,ALH,ALI,ALJ,ALR,ALS,ALT,AM,AN,AO,AP
+,APC,API,AQ,AR,AS,ASL,ASP,AST,AT,ATC,AU,AV,AW,AX,AY,AZ,B1,B2,B3,B4,B5,B6,B7,B8,B9,BA,BAA,BAB,BAC,
+BAD,BAE,BAF,BAG,BAH,BAI,BAJ,BAK,BB,BC,BCI,BCN,BCP,BD,BDG,BDN,BE,BEN,BF,BG,BH,BI,BJ,BK,BKT,BL,BLT,
+BM,BMM,BN,BO,BOI,BP,BQ,BR,BS,BT,BU,BV,BW,BX,BY,BZ,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,CA,CAA,CAB,CAC,CA
+D,CAE,CAF,CAG,CAH,CAI,CAJ,CAK,CAL,CAM,CAT,CB,CBG,CC,CD,CDN,CDT,CE,CF,CFR,CG,CH,CHR,CI,CID,CIR,CIT
+,CJ,CK,CL,CLI,CM,CMN,CMP,CMT,CN,CNA,CNO,CNS,CO,COL,COT,CP,CPA,CPD,CPR,CPT,CQ,CR,CRN,CRS,CS,CSC,CS
+G,CST,CT,CTS,CU,CUB,CV,CVS,CW,CX,CY,CYC,CZ,D0,D1,D2,D3,D4,D5,D6,D7,D8,D9,DA,DAI,DAN,DB,DC,DD,DE,D
+F,DG,DH,DHH,DI,DIS,DJ,DK,DL,DM,DN,DNR,DNS,DO,DOA,DOC,DOE,DOI,DOJ,DOL,DON,DOS,DOT,DP,DQ,DR,DRN,DS,
+DSC,DSI,DST,DT,DTS,DU,DUN,DV,DW,DX,DY,DZ,E00,E01,E02,E1,E2,E3,E4,E5,E6,E7,E8,E9,EA,EB,EC,ECA,ECB,
+ECC,ECD,ECE,ECF,ECJ,ED,EDA,EE,EF,EG,EH,EI,EII,EJ,EK,EL,EM,EMM,EN,END,EO,EP,EPA,EPB,EPC,EQ,ER,ES,E
+SN,ET,EU,EV,EVI,EW,EX,EXP,EY,EZ,F1,F2,F3,F4,F5,F6,F7,F8,F9,FA,FAN,FB,FC,FCN,FD,FE,FEN,FF,FG,FH,FH
+C,FHO,FI,FJ,FK,FL,FLZ,FM,FMG,FMP,FN,FND,FO,FP,FQ,FR,FRN,FS,FSC,FSN,FT,FTN,FTP,FTZ,FU,FV,FW,FWC,FX
+,FY,FZ,G1,G2,G3,G4,G5,G6,G7,G8,G9,GA,GB,GC,GD,GE,GF,GG,GH,GI,GJ,GK,GL,GM,GN,GO,GP,GQ,GR,GS,GT,GU,
+GV,GW,GWS,GX,GY,GZ,H1,H2,H3,H5,H6,H7,H8,H9,HA,HB,HC,HD,HE,HF,HG,HH,HHT,HI,HJ,HK,HL,HM,HMB,HN,HO,H
+P,HPI,HQ,HR,HS,HT,HU,HUD,HV,HW,HX,HY,HZ,I1,I2,I3,I4,I5,I7,I9,IA,IB,IC,ICD,ID,IE,IF,IFC,IFT,IG,IH,
+II,IID,IJ,IK,IL,IM,IMP,IMS,IN,IND,IO,IP,IQ,IR,IRN,IRP,IS,ISC,ISN,ISS,IT,ITI,IU,IV,IW,IX,IZ,J0,J1,
+J2,J3,J4,J5,J6,J7,J8,J9,JA,JB,JC,JCS,JD,JE,JF,JH,JI,JK,JL,JM,JN,JO,JP,JQ,JR,JS,JT,JU,JV,JW,JX,JY,
+JZ,K0,K1,K2,K3,K4,K5,K6,K7,K8,K9,KA,KAS,KB,KC,KCS,KD,KE,KG,KH,KI,KII,KJ,KK,KL,KM,KN,KO,KP,KQ,KR,K
+RL,KRP,KS,KSR,KT,KU,KV,KW,KX,KY,KZ,L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,LA,LAA,LAN,LB,LC,LD,LE,LEN,LF,LG
+,LH,LI,LIC,LJ,LK,LL,LM,LMI,LN,LO,LOI,LOS,LP,LPK,LQ,LR,LS,LSD,LT,LU,LV,LVO,LW,LX,LY,LZ,M0,M1,M2,M3
+,M5,M6,M7,M8,M9,MA,MB,MBS,MBX,MC,MCC,MCI,MCN,MD,MDN,ME,MF,MG,MH,MI,MII,MIN,MJ,MK,ML,MM,MN,MO,MP,M
+PN,MQ,MR,MRC,MRN,MS,MSL,MT,MU,MUI,MV,MW,MX,MY,MZ,MZO,N0,N1,N2,N3,N4,N5,N6,N7,N8,N9,NA,NAS,NB,NC,N
+D,NDA,NDB,NE,NF,NFC,NFD,NFM,NFN,NFS,NG,NH,NI,NJ,NK,NL,NM,NMT,NN,NO,NP,NQ,NR,NS,NT,NTP,NU,NW,NX,NY
+,NZ,O1,O2,O5,O7,O8,O9,OA,OB,OC,OD,OE,OF,OFF,OG,OH,OI,OIC,OJ,OK,OL,OM,ON,OOS,OP,OPE,OPF,OQ,OR,OS,O
+T,OU,OV,OW,OX,OZ,P1,P2,P3,P4,P5,P6,P7,P8,P9,PA,PAC,PAN,PAP,PB,PC,PCC,PCN,PD,PDI,PDL,PDR,PE,PF,PG,
+PGC,PGD,PGN,PGS,PH,PHC,PHY,PI,PID,PIN,PJ,PJC,PK,PKG,PKU,PL,PLA,PLN,PM,PMN,PN,PNN,PO,POL,POS,PP,PP
+J,PPK,PPL,PPM,PPN,PQ,PR,PRS,PRT,PS,PSI,PSL,PSM,PSN,PT,PTC,PU,PUA,PV,PVC,PW,PWC,PWS,PX,PXC,PY,PYA,
+PYR,PZ,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,QA,QB,QC,QD,QE,QF,QG,QH,QI,QJ,QK,QL,QM,QN,QO,QP,QQ,QR,QS,QT,QU,
+QV,QW,QX,QY,QZ,R0,R1,R2,R3,R4,R5,R6,R7,R8,R9,RA,RAA,RAN,RB,RC,RD,RE,REC,RF,RG,RGI,RH,RI,RIG,RJ,RK
+,RL,RLI,RM,RN,RO,RP,RPP,RPS,RPT,RQ,RR,RRC,RRS,RS,RSN,RSS,RT,RU,RV,RW,RWK,RX,RY,RZ,S0,S1,S2,S3,S4,
+S5,S6,S7,S8,S9,SA,SAL,SB,SBN,SC,SCA,SCN,SD,SDT,SE,SEK,SES,SF,SG,SH,SHL,SI,SII,SJ,SK,SL,SM,SMC,SMT
+,SN,SNH,SNP,SNV,SO,SP,SPL,SPN,SQ,SR,SS,SST,ST,STB,STR,STS,SU,SUB,SUC,SUO,SV,SW,SX,SY,SZ,T0,T1,T2,
+T3,T4,T5,T6,T7,T8,T9,TA,TB,TC,TD,TDT,TE,TF,TFC,TG,TH,TI,TIP,TJ,TK,TL,TM,TN,TO,TOC,TP,TPN,TQ,TR,TS
+,TSN,TT,TU,TV,TW,TX,TY,TZ,U0,U1,U2,U3,U4,U5,U6,U8,U9,UA,UB,UC,UCB,UCM,UD,UE,UF,UG,UH,UI,UIC,UJ,UK
+,UL,UM,UN,UO,UP,UQ,UR,URL,URP,URQ,US,UT,UU,UV,UW,UX,UY,UZ,V0,V1,V2,V3,V4,V5,V6,V7,V8,V9,VA,VAO,VB
+,VC,VD,VE,VF,VG,VGS,VH,VI,VJ,VK,VL,VM,VN,VO,VP,VQ,VR,VS,VT,VU,VV,VW,VX,VY,VZ,W1,W2,W3,W4,W5,W6,W7
+,W8,W9,WA,WB,WC,WCS,WD,WDR,WE,WF,WG,WH,WI,WJ,WK,WL,WM,WN,WO,WP,WQ,WR,WS,WT,WU,WV,WW,WX,WY,WZ,X0,X
+1,X2,X3,X4,X5,X6,X7,X8,X9,XA,XB,XC,XD,XE,XF,XG,XH,XI,XJ,XK,XL,XM,XN,XO,XP,XQ,XR,XS,XT,XU,XV,XW,XX
+,XX1,XX2,XX3,XX4,XX5,XX6,XX7,XX8,XY,XZ,Y0,Y1,Y2,Y3,Y4,Y5,Y6,Y8,Y9,YA,YB,YC,YD,YE,YF,YH,YI,YJ,YK,Y
+L,YM,YN,YO,YP,YQ,YR,YS,YT,YV,YW,YX,YY,YZ,Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,Z9,ZA,ZB,ZC,ZD,ZE,ZG,ZH,ZI,ZJ,ZK
+,ZL,ZM,ZN,ZO,ZP,ZQ,ZR,ZS,ZT,ZTS,ZU,ZV,ZW,ZX,ZY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                128_39
+
+0F
+
+-------------------------------------------------------------------------------------------------
+
+                128_48
+
+1L
+
+-------------------------------------------------------------------------------------------------
+
+                128_58
+
+17,23,3H,4A,6O,ABB,D3,DX,F6,P5,Q4,QQ,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                128_67
+
+17,1L,9V,CE,E8,M7,PID,RB,X9,XM,XX1,XX2,ZX,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                128_73
+
+QQ
+
+-------------------------------------------------------------------------------------------------
+
+                128_77
+
+60,6P,SY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                128_80
+
+00,17,18,19,26,3L,6M,9V,9X,GE,LU,PID,XX1,XX2,YY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                128_85
+
+38
+
+-------------------------------------------------------------------------------------------------
+
+                1303
+
+5,6,7,8
+
+-------------------------------------------------------------------------------------------------
+
+                1365_5
+
+1,35,48,50,54,89,90,A4,AG,AL,BB
+
+-------------------------------------------------------------------------------------------------
+
+                1476
+
+1,2,3,4,5,6,A,B,C,D,E
+
+-------------------------------------------------------------------------------------------------
+
+                1701
+
+0,1,2
+
+-------------------------------------------------------------------------------------------------
+
+                235_14
+
+DX,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                306_3
+
+1,2,RX
+
+-------------------------------------------------------------------------------------------------
+
+                306_4
+
+2
+
+-------------------------------------------------------------------------------------------------
+
+                306_8
+
+2,4,RX
+
+-------------------------------------------------------------------------------------------------
+
+                309_2
+
+10,11,12,13,14,18,19,20,21,22,27,28,29,30,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46,47,48,49,5
+0,52,53,54,55,57,58,59,60,93,94,A,A1,AA,AC,AP,AR,B,B1,BE,BL,BS,C,C2,CA,CB,CC,CD,CE,CG,CI,CL,CM,CO
+,CR,CS,CY,D,DC,DE,DL,DO,DP,DR,DT,E,EA,EB,EL,F,FA,FE,FF,FI,FR,FS,FT,FV,G,GL,H,I,IA,IB,IM,IP,IS,IT,
+J,K,KE,KL,KP,L,LO,M,MI,MO,MS,MZ,NS,O,OA,OF,OL,OP,OR,OV,P,PA,PB,PC,PD,PE,PF,PG,PH,PL,PM,PO,PP,PQ,P
+R,PS,PT,PU,PV,PZ,Q,RA,RC,RE,RG,RJ,RL,RS,RT,SA,SB,SC,SD,SE,SG,SH,SL,SN,SP,SS,ST,SW,TA,TC,TI,TL,TM,
+TN,TP,TR,TX,UN,UR,UT,VA,VI,VS,W,WF,WH,WI,X1,ZN,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                309_3
+
+60,CY,RJ
+
+-------------------------------------------------------------------------------------------------
+
+                309_4
+
+60,CY
+
+-------------------------------------------------------------------------------------------------
+
+                353_6
+
+00,15,22
+
+-------------------------------------------------------------------------------------------------
+
+                355
+
+01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,1A,1B,1C,1D,1E,1F,1G,1H,1I,1J,1K,1L,1M,1
+N,1O,1P,1Q,1R,1T,1X,20,21,22,23,24,25,26,27,28,29,2A,2B,2C,2D,2F,2G,2H,2I,2J,2K,2L,2M,2N,2P,2Q,2R
+,2U,2V,2W,2X,2Y,2Z,30,31,32,33,34,35,36,37,38,39,3B,3C,3E,3F,3G,3H,3I,40,41,43,44,45,46,47,48,4A,
+4B,4C,4D,4E,4F,4G,4I,4J,4K,4L,4M,4N,4O,4P,4Q,4R,4S,4T,4U,4V,4W,4X,50,51,52,53,54,56,57,58,59,5A,5
+B,5C,5D,5E,5F,5G,5H,5I,5J,5K,5P,5Q,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,76,77,78,79,80,81
+,82,83,84,85,86,87,89,8C,8D,8P,8R,8S,8U,90,91,92,93,94,95,96,97,98,99,A8,AA,AB,AC,AD,AE,AF,AG,AH,
+AI,AJ,AK,AL,AM,AN,AO,AP,AQ,AR,AS,AT,AU,AV,AW,AX,AY,AZ,B0,B1,B2,B3,B4,B5,B6,B7,B8,B9,BA,BB,BC,BD,B
+E,BF,BG,BH,BI,BJ,BK,BL,BM,BN,BO,BP,BQ,BR,BS,BT,BU,BV,BW,BX,BY,BZ,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,CA
+,CB,CC,CD,CE,CF,CG,CH,CI,CJ,CK,CL,CM,CN,CO,CP,CQ,CR,CS,CT,CU,CV,CW,CX,CY,CZ,D1,D2,D3,D5,D8,D9,DA,
+DB,DC,DD,DE,DF,DG,DH,DI,DJ,DK,DL,DM,DN,DO,DP,DQ,DR,DS,DT,DU,DW,DX,DY,DZ,E1,E3,E4,E5,E7,E8,E9,EA,E
+B,EC,ED,EE,EF,EG,EH,EJ,EM,EP,EQ,EV,EX,EY,EZ,F1,F2,F3,F4,F5,F6,F9,FA,FB,FD,FE,FF,FG,FH,FJ,FK,FL,FM
+,FO,FP,FR,FS,FT,FZ,G2,G3,G4,G5,G6,G7,G8,G9,GA,GB,GC,GD,GE,GF,GG,GH,GI,GJ,GK,GL,GM,GN,GO,GP,GQ,GR,
+GS,GT,GU,GV,GW,GX,GY,GZ,H1,H2,H3,H4,H5,H6,H7,H8,H9,HA,HB,HC,HD,HE,HF,HG,HH,HI,HJ,HK,HL,HM,HN,HO,H
+P,HQ,HR,HS,HT,HU,HV,HW,HY,HZ,IA,IB,IC,IE,IF,IG,IH,II,IK,IL,IM,IN,IP,IS,IT,IU,IV,IW,J1,J2,J3,J4,J5
+,J6,J7,J8,J9,JA,JB,JC,JE,JG,JK,JL,JM,JN,JO,JP,JR,JS,JT,JU,JV,JX,K1,K2,K3,K4,K5,K6,K7,K9,KA,KB,KC,
+KD,KE,KF,KG,KH,KI,KJ,KK,KL,KM,KO,KP,KQ,KR,KT,KU,KV,KW,KX,L1,L2,LA,LB,LC,LE,LF,LG,LH,LI,LJ,LK,LL,L
+M,LN,LO,LP,LQ,LR,LS,LT,LX,LY,M0,M1,M2,M3,M4,M5,M6,M7,M8,M9,MA,MB,MC,MD,ME,MF,MG,MH,MI,MJ,MK,ML,MM
+,MN,MO,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,N1,N2,N3,N4,N6,N7,N9,NA,NB,NC,ND,NE,NF,NG,NH,NI,NJ,NK,NL,
+NM,NN,NQ,NR,NS,NT,NU,NV,NW,NX,NY,OA,OC,ON,OP,OT,OZ,P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,PA,PB,PC,PD,PE,P
+F,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU,PV,PW,PX,PY,PZ,Q1,Q2,Q3,Q4,Q5,Q6,Q7,QA,QB,QC,QD,QE
+,QH,QK,QR,QS,QT,QU,R1,R2,R3,R4,R5,R6,R7,R8,R9,RA,RB,RC,RD,RE,RG,RH,RK,RL,RM,RN,RO,RP,RS,RT,RU,S1,
+S2,S3,S4,S5,S6,S7,S8,S9,SA,SB,SC,SD,SE,SF,SG,SH,SI,SJ,SK,SL,SM,SN,SO,SP,SQ,SR,SS,ST,SV,SW,SX,SY,S
+Z,T0,T1,T2,T3,T4,T5,T6,T7,T8,T9,TA,TB,TC,TD,TE,TF,TG,TH,TI,TJ,TK,TL,TM,TN,TO,TP,TQ,TR,TS,TT,TU,TV
+,TW,TX,TY,TZ,U1,U2,U3,U5,UA,UB,UC,UD,UE,UF,UH,UL,UM,UN,UP,UQ,UR,US,UT,UU,UV,UW,UX,UY,UZ,V1,V2,VA,
+VC,VI,VP,VR,VS,W2,WA,WB,WD,WE,WG,WH,WI,WK,WM,WP,WR,WW,X1,X2,X3,X4,X5,X6,X7,X8,X9,XP,Y1,Y2,Y3,Y4,Y
+D,YL,YR,YT,Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,Z9,ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,ZO,ZP,ZQ,ZR,ZS,ZW
+,ZX,ZY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                365_10
+
+AP,BN,CP,EM,EX,HP,TE,WP
+
+-------------------------------------------------------------------------------------------------
+
+                365_12
+
+AA,AB,AC,AD,AE,AP,AS,AU,BN,BT,CA,CP,DN,EA,ED,EM,EX,FT,FU,FX,HF,HP,IT,MN,NP,OF,OT,PA,PC,PP,PS,SP,T
+E,TL,TM,TN,TX,UR,VM,WC,WF,WP
+
+-------------------------------------------------------------------------------------------------
+
+                365_19
+
+AP,BN,CP,EM,EX,FX,HP,TE,WP
+
+-------------------------------------------------------------------------------------------------
+
+                365_4
+
+EM,EX,FX,TE
+
+-------------------------------------------------------------------------------------------------
+
+                365_5
+
+AP,BN,CP,EM,EX,FX,TE
+
+-------------------------------------------------------------------------------------------------
+
+                365_8
+
+TE
+
+-------------------------------------------------------------------------------------------------
+
+                366
+
+EP
+
+-------------------------------------------------------------------------------------------------
+
+                366_3
+
+SK
+
+-------------------------------------------------------------------------------------------------
+
+                366_4
+
+IC
+
+-------------------------------------------------------------------------------------------------
+
+                366_5
+
+PQ
+
+-------------------------------------------------------------------------------------------------
+
+                366_6
+
+RP
+
+-------------------------------------------------------------------------------------------------
+
+                366_7
+
+CN
+
+-------------------------------------------------------------------------------------------------
+
+                366_8
+
+IP
+
+-------------------------------------------------------------------------------------------------
+
+                374
+
+007
+
+-------------------------------------------------------------------------------------------------
+
+                374_17
+
+050,286,296,297,300,301,303,336,337,338,339,340,341,350,351,356,357,383,385,386,393,394,473,474
+
+-------------------------------------------------------------------------------------------------
+
+                374_28
+
+360,361
+
+-------------------------------------------------------------------------------------------------
+
+                374_34
+
+300,303,343,348,349,543,695
+
+-------------------------------------------------------------------------------------------------
+
+                374_39
+
+344,345
+
+-------------------------------------------------------------------------------------------------
+
+                374_52
+
+007,090,091,303,382,388
+
+-------------------------------------------------------------------------------------------------
+
+                478
+
+C,D
+
+-------------------------------------------------------------------------------------------------
+
+                522_14
+
+B9,C1,D2,EBA,FK,P3,R
+
+-------------------------------------------------------------------------------------------------
+
+                569_2
+
+01,03,05,06,07,08,1,10,11,12,13,14,2,3,4,5,6,7,8,9,AG,ALC,ANN,AP,BA,CB,CC,CDM,CDS,CM,CRU,DA,DC,EC
+,EPC,GL,LN,LTD,MUT,PRI,RD,REL,RS,SG,SKA,Z,ZB1,ZB2
+
+-------------------------------------------------------------------------------------------------
+
+                584_4
+
+AC,AO,AU,FT,L1,PT,RT,TE
+
+-------------------------------------------------------------------------------------------------
+
+                594
+
+1,2,3,4,6,7,8,9,B,C,H,Q,S,U
+
+-------------------------------------------------------------------------------------------------
+
+                623
+
+01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,AD,AS,AT,CD,CS,CT,ED,ES,E
+T,GM,HD,HS,HT,LT,MD,MS,MT,ND,NS,NT,PD,PS,PT,TD,TS,TT,UT
+
+-------------------------------------------------------------------------------------------------
+
+                640_2
+
+01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,1A,1B,20,21,22,23,24,25,26,27,28,30,31,3
+3,34,35,36,37,38,39,3M,40,41,42,43,44,45,46,47,48,49,50,51,52,54,55,56,57,58,60,62,63,64,65,66,67
+,68,69,6A,6C,6N,6R,6S,70,71,72,73,74,75,76,77,78,79,80,81,82,83,85,87,88,89,91,94,95,97,98,99,A0,
+A1,A3,A4,A5,A6,A7,AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AK,AL,AM,AN,AP,AQ,AR,AS,AT,AV,AW,AZ,BA,BB,BD,BF,B
+G,BH,BJ,BK,BL,BM,BN,BO,BP,BR,BS,BT,BU,BV,BW,BX,BZ,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,CA,CB,CC,CD,CE,CF
+,CG,CH,CI,CJ,CK,CL,CM,CN,CO,CP,CR,CS,CT,CU,CV,CW,CX,CY,CZ,D1,D4,DA,DB,DC,DD,DE,DF,DG,DH,DI,DK,DL,
+DM,DN,DO,DP,DQ,DR,DS,DT,DU,E1,EA,EB,EC,ED,EF,EI,EM,EP,ER,EX,F1,F4,F5,F6,F7,F8,FA,FB,FC,FD,FE,FF,F
+G,FI,FL,FM,FN,FP,FR,FS,FT,G1,G2,G3,GA,GI,GR,GS,GT,GU,GV,GW,GX,GY,HA,HB,HC,HD,HE,HF,HG,HP,HX,I1,IA
+,IB,IC,ID,IE,IF,II,IM,IN,IO,IR,IU,IW,IX,IZ,JM,JO,JR,JS,JU,JX,KB,KC,KD,KE,KF,KG,KH,KI,KJ,KK,KL,KM,
+KN,KS,KT,LC,LD,LE,LF,LN,LO,LP,LR,LV,M1,MA,MB,MC,MD,ME,MF,MI,ML,MM,MP,MR,MS,MU,N1,N2,N3,N4,N5,N6,N
+7,N8,NA,NB,NC,ND,NE,NF,NG,NH,NI,NJ,NK,NL,NM,NO,NP,NQ,NR,NS,NT,NU,OC,OF,OP,OR,P1,PA,PB,PC,PD,PE,PF
+,PG,PH,PI,PL,PM,PO,PP,PR,PS,PT,PU,PV,PW,PX,PZ,Q1,Q2,QA,QB,QC,QD,QE,QF,QG,QH,QJ,QK,QL,QP,QR,R1,R2,
+R3,R4,R5,R6,R7,R8,RA,RB,RC,RD,RE,RF,RG,RH,RI,RJ,RK,RM,RP,RQ,RS,RT,RU,RZ,S1,S2,S3,S4,SA,SB,SC,SD,S
+E,SF,SG,SH,SL,SM,SO,SP,SQ,SR,SS,ST,SU,SV,T1,T2,T3,T4,T5,T6,T7,T8,T9,TD,TF,TG,TH,TI,TJ,TK,TL,TP,TR
+,TS,TT,TX,U1,U2,U4,U5,U9,UA,UC,UD,UF,UI,UM,UO,UP,UR,UT,V1,V2,V3,V4,VH,VJ,VL,VM,VN,VO,VP,VQ,VR,W1,
+W4,W5,WA,WC,WD,WH,WO,WS,WT,X1,XA,XB,XC,XD,XX,XY,XZ,YI,YR,Z1,Z2,Z3,Z4,ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,Z
+J,ZK,ZL,ZM,ZN,ZO,ZP,ZQ,ZR,ZS,ZT,ZU,ZV,ZW,ZX,ZY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                659
+
+1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K
+
+-------------------------------------------------------------------------------------------------
+
+                66_12
+
+0,1,10,11,12,13,15,16,17,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,
+41,42,43,44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,6,61,62,63,64,7,71,72,73,74,75,76,77,78,81,
+82,83,9,90,91,92,93,94,95,96,97,98,99,A,A1,A2,A3,A4,A5,A6,A7,AA,AB,AC,AD,AE,AF,AI,AL,AP,BC,BD,BE,
+BG,BN,BP,BS,C,C1,C2,C5,CA,CB,CC,CD,CE,CF,CI,CL,CM,CN,CP,CR,CS,CT,D,DG,DL,DN,DO,DP,DR,DS,E,EC,EH,E
+I,EL,EP,EQ,ER,ES,ET,F,FA,FB,FC,FD,FE,FI,FJ,FL,FN,G,GA,GC,HC,HN,HS,I,ID,II,IP,J,K,L,LC,LD,LE,LI,LN
+,M,M3,M4,M5,M6,MA,MB,MC,MD,MI,MK,ML,MN,MO,MP,MR,N,NA,ND,NI,NO,NR,OC,OP,PA,PB,PC,PI,PP,PR,RA,RB,RC
+,RD,RE,RI,RP,RT,S,SA,SB,SD,SF,SI,SJ,SK,SL,SP,ST,SV,SW,TA,TC,TL,TS,TZ,UC,UI,UL,UP,UR,US,UT,WR,WS,X
+1,XV,XX,XY,ZC,ZN,ZY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                66_18
+
+34,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                66_23
+
+LD,LE
+
+-------------------------------------------------------------------------------------------------
+
+                66_26
+
+24,34
+
+-------------------------------------------------------------------------------------------------
+
+                66_29
+
+34,FI,SV,XX
+
+-------------------------------------------------------------------------------------------------
+
+                66_31
+
+FI,NI,XV
+
+-------------------------------------------------------------------------------------------------
+
+                66_36
+
+24,94,FI
+
+-------------------------------------------------------------------------------------------------
+
+                66_5
+
+94,FI,XV
+
+-------------------------------------------------------------------------------------------------
+
+                673_9
+
+DT,ET,TO
+
+-------------------------------------------------------------------------------------------------
+
+                706_2
+
+25,26,72
+
+-------------------------------------------------------------------------------------------------
+
+                706_3
+
+01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,3
+4,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66
+,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,
+99,AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AK,AL,AM,AN,AO,AP,AQ,AR,AS,AT,AU,AV,AW,CP,OP,PI
+
+-------------------------------------------------------------------------------------------------
+
+                786
+
+00,01,02,03,04,05,06,09,11,20,21,90,92,93,94,99,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                875
+
+001,002,021,024,025,026,030,032
+
+-------------------------------------------------------------------------------------------------
+
+                875_4
+
+001,021,024,025,030
+
+-------------------------------------------------------------------------------------------------
+
+                98
+
+S3
+
+-------------------------------------------------------------------------------------------------
+
+                98_10
+
+1X,3D,80,FA,OD,P3,QA,QN,Y2
+
+-------------------------------------------------------------------------------------------------
+
+                98_12
+
+1P
+
+-------------------------------------------------------------------------------------------------
+
+                98_15
+
+36,GW,IN
+
+-------------------------------------------------------------------------------------------------
+
+                98_17
+
+75
+
+-------------------------------------------------------------------------------------------------
+
+                98_19
+
+00,001,002,003,004,005,006,007,008,01,02,03,04,05,06,07,08,09,0A,0B,0D,0E,0F,0G,0H,0I,0J,0P,10,11
+,12,13,14,15,16,17,18,19,1A,1B,1C,1D,1E,1F,1G,1H,1I,1J,1K,1L,1M,1N,1O,1P,1Q,1R,1S,1T,1U,1V,1W,1X,
+1Y,1Z,20,21,22,23,24,25,26,27,28,29,2A,2B,2C,2D,2E,2F,2G,2H,2I,2J,2K,2L,2M,2N,2O,2P,2Q,2R,2S,2T,2
+U,2V,2W,2X,2Y,2Z,30,31,32,33,34,35,36,37,38,39,3A,3B,3C,3D,3E,3F,3G,3H,3I,3J,3K,3L,3M,3N,3O,3P,3Q
+,3R,3S,3T,3U,3V,3W,3X,3Y,3Z,40,41,42,43,44,45,46,47,48,49,4A,4B,4C,4D,4E,4F,4G,4H,4I,4J,4K,4L,4M,
+4N,4O,4P,4Q,4R,4S,4T,4U,4V,4W,4X,4Y,4Z,50,51,52,53,54,55,56,57,58,59,5A,5B,5C,5D,5E,5F,5G,5H,5I,5
+J,5K,5L,5M,5N,5O,5P,5Q,5R,5S,5T,5U,5V,5W,5X,5Y,5Z,60,61,62,63,64,65,66,67,68,69,6A,6B,6C,6D,6E,6F
+,6G,6H,6I,6J,6K,6L,6M,6N,6O,6P,6Q,6R,6S,6T,6U,6V,6W,6X,6Y,6Z,70,71,72,73,74,75,76,77,78,79,7A,7B,
+7C,7D,7E,7F,7G,7H,7I,7J,7K,7L,7M,7N,7O,7P,7Q,7R,7S,7T,7U,7V,7W,7X,7Y,7Z,80,81,82,83,84,85,86,87,8
+8,89,8A,8B,8C,8D,8E,8F,8G,8H,8I,8J,8K,8L,8M,8N,8O,8P,8Q,8R,8S,8T,8U,8V,8W,8X,8Y,90,91,92,93,94,95
+,96,97,98,99,9A,9B,9C,9D,9E,9F,9G,9H,9I,9J,9K,9L,9N,9O,9P,9Q,9R,9S,9T,9U,9V,9W,9X,9Y,9Z,A1,A2,A3,
+A4,A5,A6,A7,A8,A9,AA,AA1,AA2,AA3,AA4,AA5,AA6,AA7,AA8,AA9,AAA,AAB,AAC,AAD,AAE,AAF,AAG,AAH,AAI,AAJ,
+AAK,AAL,AAM,AAN,AAO,AAP,AAQ,AAS,AAT,AAU,AAV,AAW,AB,AB1,AB2,AB3,AB4,AB5,AB6,AB7,AB8,AB9,ABB,ABC,AB
+D,ABE,ABF,ABG,ABH,ABI,ABJ,ABK,ABL,ABM,ABN,ABO,ABP,ABQ,ABR,ABS,ABT,ABU,ABV,ABW,ABX,AC,AC1,AC2,AC3,
+ACB,ACC,ACE,ACF,ACG,ACH,ACI,ACJ,ACK,ACL,ACM,ACN,ACO,ACP,ACQ,ACR,ACS,ACT,ACU,ACV,ACW,ACX,ACY,ACZ,A
+D,ADA,ADB,ADC,ADD,ADE,ADF,ADH,ADJ,ADK,ADL,ADM,ADN,ADO,ADP,ADQ,ADR,ADS,ADT,ADU,ADV,ADW,ADX,ADY,ADZ
+,AE,AEA,AEB,AEC,AED,AEE,AEF,AEG,AEI,AEJ,AEK,AEL,AF,AG,AH,AHM,AI,AJ,AK,AL,ALA,ALO,AM,AN,AO,AP,APR,
+AQ,AR,AS,AT,ATA,AU,AUO,AV,AW,AX,AY,AZ,B1,B2,B3,B4,B5,B6,B7,B8,B9,BA,BAL,BB,BC,BD,BE,BF,BG,BH,BI,B
+J,BK,BKR,BL,BLD,BLT,BM,BN,BO,BOW,BP,BQ,BR,BRN,BS,BT,BU,BUS,BV,BW,BX,BY,BZ,C0,C1,C2,C3,C4,C4A,C5,C
+6,C7,C8,C9,CA,CB,CC,CD,CE,CF,CG,CH,CHA,CI,CJ,CK,CL,CLT,CM,CMW,CN,CNP,CNR,CNS,CO,COD,COL,COM,COR,C
+P,CQ,CR,CRW,CS,CT,CU,CV,CW,CX,CY,CZ,D1,D2,D3,D4,D5,D6,D7,D8,D9,DA,DAM,DB,DC,DCC,DD,DE,DF,DG,DH,DI
+,DIR,DJ,DK,DL,DM,DN,DO,DP,DQ,DR,DS,DT,DU,DV,DW,DX,DY,DZ,E0,E1,E2,E3,E4,E5,E6,E7,E8,E9,EA,EAA,EAB,
+EAD,EAE,EAF,EAG,EAH,EAI,EAJ,EAK,EAL,EAM,EAN,EAO,EAP,EAQ,EAR,EAS,EAT,EAU,EAV,EAW,EAX,EAY,EAZ,EB,EB
+A,EBB,EBC,EBD,EBE,EBF,EBG,EBH,EBI,EBJ,EBK,EBL,EBM,EBN,EBO,EBP,EBQ,EBR,EBS,EC,ED,EE,EF,EG,EH,EI,EJ
+,EK,EL,EM,EN,ENR,EO,EP,EQ,ER,ET,EU,EV,EW,EX,EXS,EY,EZ,F1,F2,F3,F4,F5,F6,F7,F8,F9,FA,FB,FC,FD,FE,F
+F,FG,FGT,FH,FI,FJ,FL,FM,FN,FO,FP,FQ,FR,FRL,FS,FSI,FSR,FT,FU,FV,FW,FX,FY,FZ,G0,G1,G2,G3,G5,G6,G7,G
+8,G9,GA,GB,GBA,GBO,GBP,GC,GD,GE,GF,GG,GH,GI,GIR,GJ,GK,GL,GM,GN,GO,GP,GQ,GR,GS,GT,GU,GV,GW,GX,GY,G
+Z,H1,H2,H3,H5,H6,H7,H9,HA,HB,HC,HD,HE,HF,HG,HH,HI,HJ,HK,HL,HM,HMI,HN,HO,HOM,HON,HP,HQ,HR,HS,HT,HU
+,HV,HW,HX,HY,HZ,I1,I3,I4,I9,IA,IAA,IAC,IAD,IAE,IAF,IAG,IAH,IAI,IAK,IAL,IAM,IAN,IAO,IAP,IAQ,IAR,IA
+S,IAT,IAU,IAV,IAW,IAY,IAZ,IB,IC,ICP,ID,IE,IF,IG,II,IJ,IK,IL,IM,IMM,IN,INT,INV,IO,IP,IQ,IR,IS,IT,I
+U,IV,J1,J2,J3,J4,J5,J6,J7,J8,J9,JA,JB,JC,JD,JE,JF,JG,JH,JI,JJ,JK,JL,JM,JN,JO,JP,JQ,JR,JS,JT,JU,JV
+,JW,JX,JY,JZ,K1,K2,K3,K4,K5,K6,K7,K8,K9,KA,KB,KC,KD,KE,KF,KG,KH,KI,KJ,KK,KL,KM,KN,KO,KP,KQ,KR,KS,
+KT,KU,KV,KW,KX,KY,KZ,L1,L2,L3,L5,L8,L9,LA,LB,LC,LCN,LD,LE,LF,LG,LGS,LH,LI,LJ,LK,LL,LM,LN,LO,LP,LQ
+,LR,LS,LT,LU,LV,LW,LY,LYM,LYN,LYO,LYP,LZ,M1,M2,M3,M4,M5,M6,M7,M8,M9,MA,MB,MC,MD,ME,MF,MG,MH,MI,MJ
+,MK,ML,MM,MN,MO,MP,MQ,MR,MS,MSC,MT,MTR,MU,MV,MW,MX,MY,MZ,N1,N2,N3,N4,N5,N6,N7,N8,N9,NB,NC,NCT,ND,
+NE,NF,NG,NH,NI,NJ,NK,NL,NM,NN,NP,NPC,NQ,NR,NS,NT,NU,NV,NW,NX,NY,NZ,O1,O2,O3,O4,O5,O6,O7,O8,OA,OB,
+OC,OD,OE,OF,OG,OH,OI,OL,OM,ON,OO,OP,OR,ORI,OS,OSH,OT,OU,OUC,OV,OW,OX,OY,OZ,P0,P1,P2,P3,P4,P5,P6,P
+7,P8,P9,PA,PB,PC,PD,PE,PF,PG,PH,PI,PIC,PJ,PK,PL,PLC,PLR,PM,PMC,PMF,PMG,PN,PO,PP,PPC,PPS,PQ,PR,PRE
+,PRO,PRP,PS,PT,PU,PUR,PV,PW,PX,PY,PZ,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,QA,QB,QC,QD,QE,QF,QG,QH,QI,QJ,QK,
+QL,QM,QN,QO,QP,QQ,QR,QS,QT,QU,QV,QW,QX,QY,QZ,R0,R1,R2,R3,R4,R5,R6,R7,R8,R9,RA,RB,RC,RCR,RD,REC,RF
+,RG,RGA,RH,RI,RJ,RK,RL,RM,RN,RO,RP,RQ,RR,RR2,RR3,RS,RT,RU,RV,RW,RX,RY,RZ,S0,S1,S2,S3,S4,S5,S6,S7,
+S8,S9,SA,SB,SC,SD,SE,SEP,SF,SG,SH,SI,SIC,SIP,SJ,SK,SL,SM,SN,SNP,SO,SP,SQ,SR,SS,ST,STC,SU,SUS,SV,S
+W,SX,SY,SZ,T1,T2,T3,T4,T6,T8,T9,TA,TB,TC,TD,TE,TEC,TF,TG,TH,TI,TJ,TK,TL,TM,TN,TO,TOW,TP,TPM,TQ,TR
+,TS,TSD,TSE,TSR,TT,TTP,TU,TV,TW,TX,TY,TZ,U1,U2,U3,U4,U5,U6,U7,U8,U9,UA,UB,UC,UD,UE,UF,UG,UH,UI,UJ
+,UK,UL,UM,UN,UO,UP,UQ,UR,US,UT,UU,UW,UX,UY,UZ,V1,V2,V3,V4,V5,V6,V8,V9,VA,VB,VC,VD,VE,VER,VF,VG,VH
+,VI,VIC,VJ,VK,VL,VM,VN,VO,VP,VQ,VR,VS,VT,VU,VV,VW,VX,VY,W1,W2,W3,W4,W8,W9,WA,WB,WC,WD,WE,WF,WG,WH
+,WI,WJ,WL,WN,WO,WP,WR,WS,WT,WU,WV,WW,WX,WY,WZ,X1,X2,X3,X4,X5,X6,X7,X8,XA,XC,XD,XE,XF,XG,XH,XI,XJ,
+XK,XL,XM,XN,XO,XP,XQ,XR,XS,XT,XU,XV,XW,XX,XY,XZ,Y2,YA,YB,YC,YD,YE,YF,YG,YH,YI,YJ,YK,YL,YM,YN,YO,Y
+P,YQ,YR,YS,YT,YU,YV,YW,YX,YY,YZ,Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,Z9,ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZJ,ZK,ZL,ZM,ZN
+,ZO,ZP,ZQ,ZR,ZS,ZT,ZU,ZV,ZW,ZX,ZY,ZZ
+
+-------------------------------------------------------------------------------------------------
+
+                98_24
+
+IN
+
+-------------------------------------------------------------------------------------------------
+
+                98_30
+
+BO,TV
+
+-------------------------------------------------------------------------------------------------
+
+                98_35
+
+74,IL
+
+-------------------------------------------------------------------------------------------------
+
+                98_4
+
+6Y,9K,E1,EI,EXS,GB,GD,J6,LR,QD,S1,TZ,X4
+
+-------------------------------------------------------------------------------------------------
+
+                98_40
+
+70
+
+-------------------------------------------------------------------------------------------------
+
+                98_45
+
+31
+
+-------------------------------------------------------------------------------------------------
+
+                98_49
+
+36
+
+-------------------------------------------------------------------------------------------------
+
+                98_52
+
+M8
+
+-------------------------------------------------------------------------------------------------
+
+                98_60
+
+P5
+
+-------------------------------------------------------------------------------------------------
+
+                98_7
+
+45
