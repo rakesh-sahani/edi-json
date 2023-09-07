@@ -21,23 +21,24 @@ public class EdiServiceImpl implements EdiService {
         EDI834 edi834 = new EDI834();
         edi834.setSegmentDelimiter("~");
         edi834.setDataElementDelimiter("*");
-        String ediData = fileStreamReader(fileInputStream);
+        String readableString = fileStreamReader(fileInputStream);
+        String ediData = regexAdd(readableString);
         if (!ediData.isEmpty()) {
-            if (ediData.startsWith("ISA")) {
+            if (ediData.startsWith("#-#-#ISA")) {
                 LinkedList<String> linkedValueList = gsSplit(ediData);
                 LinkedList<IEATrailers> ieaTrailersList = new LinkedList<>();
                 List<Groups> groupsList = new LinkedList<>();
                 for (String listValue : linkedValueList) {
-                    if (listValue.startsWith("ISA")) {
+                    if (listValue.startsWith("#-#-#ISA")) {
                         edi834.setIsa(isa(listValue));
                     }
-                    if (listValue.startsWith("GS")) {
+                    if (listValue.startsWith("#-#-#GS")) {
                         LinkedList<String> gsLinkedList = iaeSplit(listValue);
                         for (String gsListValue : gsLinkedList) {
-                            if (gsListValue.startsWith("GS")) {
+                            if (gsListValue.startsWith("#-#-#GS")) {
                                 groupsList.add(groups(gsListValue));
                             }
-                            if (gsListValue.startsWith("IEA")) {
+                            if (gsListValue.startsWith("#-#-#IEA")) {
                                 ieaTrailersList.add(ieaTrailers(gsListValue));
                             }
                         }
@@ -59,7 +60,22 @@ public class EdiServiceImpl implements EdiService {
         while ((ascii = inputStreamReader.read()) != -1) {
             readableFormat.append((char) ascii);
         }
-        return readableFormat.toString().replaceAll("\r\n", "");
+        String ediString = "";
+        if (readableFormat.toString().contains("~")) {
+            ediString = readableFormat.toString().replaceAll("\r\n", "");
+        } else {
+            ediString = readableFormat.toString().replaceAll("\n", "~");
+        }
+        return ediString;
+    }
+
+    private String regexAdd(String dataString) {
+        String[] segments = dataString.split("~");
+        StringBuilder segmentString = new StringBuilder();
+        for (String value : segments) {
+            segmentString.append("#-#-#").append(value).append("~");
+        }
+        return segmentString.toString();
     }
 
     private ISA isa(String isaString) {
@@ -73,13 +89,13 @@ public class EdiServiceImpl implements EdiService {
         Groups groups = new Groups();
         LinkedList<String> linkedValueList = stSplit(groupString);
         for (String gsListValue : linkedValueList) {
-            if (gsListValue.startsWith("GS")) {
+            if (gsListValue.startsWith("#-#-#GS")) {
                 groups.setGs(gs(gsListValue));
             }
-            if (gsListValue.startsWith("ST")) {
+            if (gsListValue.startsWith("#-#-#ST")) {
                 transactionsList.add(transactions(gsListValue));
             }
-            if (gsListValue.startsWith("GE")) {
+            if (gsListValue.startsWith("#-#-#GE")) {
                 geTrailersList.add(geTrailers(gsListValue));
             }
         }
@@ -97,22 +113,22 @@ public class EdiServiceImpl implements EdiService {
         List<Loop1000C> loop1000CList = new LinkedList<>();
         List<Loop2000> loop2000List = new LinkedList<>();
         for (String value : linkedValueList) {
-            if (value.startsWith("ST")) {
+            if (value.startsWith("#-#-#ST")) {
                 transactions.setSt(st(value));
             }
-            if (value.startsWith("BGN")) {
+            if (value.startsWith("#-#-#BGN")) {
                 transactions.setBgnBeginningSegment(bgn(value));
             }
-            if (value.startsWith("REF")) {
+            if (value.startsWith("#-#-#REF")) {
                 transactions.setRefTransactionSetPolicyNumber(refTransactionSetPolicyNumber(value));
             }
-            if (value.startsWith("DTP")) {
+            if (value.startsWith("#-#-#DTP")) {
                 dtpFileEffectiveDates.add(dtpFileEffectiveDate(value));
             }
-            if (value.startsWith("QTY")) {
+            if (value.startsWith("#-#-#QTY")) {
                 qtyTransactionSetControlTotals.add(qtyTransactionSetControlTotals(value));
             }
-            if (value.startsWith("N1")) {
+            if (value.startsWith("#-#-#N1")) {
                 String[] n1Value = value.split("\\*");
                 switch (n1Value[1]) {
                     case "P5" -> allN1.setLoop1000A(loop1000A(value));
@@ -120,10 +136,10 @@ public class EdiServiceImpl implements EdiService {
                     case "BO", "TV" -> loop1000CList.add(loop1000C(value));
                 }
             }
-            if (value.startsWith("INS")) {
+            if (value.startsWith("#-#-#INS")) {
                 loop2000List.add(loop2000(value));
             }
-            if (value.startsWith("SE")) {
+            if (value.startsWith("#-#-#SE")) {
                 transactions.setSe(se(value));
             }
         }
@@ -205,11 +221,11 @@ public class EdiServiceImpl implements EdiService {
 
     private Loop1000C loop1000C(String n1String) {
         Loop1000C loop1000C = new Loop1000C();
-        if (n1String.startsWith("N1") && n1String.contains("ACT")) {
+        if (n1String.startsWith("#-#-#N1") && n1String.contains("#-#-#ACT")) {
             LinkedList<String> stringLinkedList = actSplit(n1String);
             loop1000C.setN1TpaBrokerName(n1TpaBrokerName(stringLinkedList.get(0)));
             loop1000C.setLoop1100C(loop1100C(stringLinkedList.get(1)));
-        } else if (n1String.startsWith("N1")) {
+        } else if (n1String.startsWith("#-#-#N1")) {
             loop1000C.setN1TpaBrokerName(n1TpaBrokerName(n1String));
         }
         return loop1000C;
@@ -252,10 +268,10 @@ public class EdiServiceImpl implements EdiService {
         LinkedList<String> nm1ValueList = nm1Split(dsbValueList);
         LinkedList<String> linkedValueList = loop2000Split(nm1ValueList);
         for (String value : linkedValueList) {
-            if (value.startsWith("INS")) {
+            if (value.startsWith("#-#-#INS")) {
                 loop2000.setInsMemberLevelDetail(insMemberLevelDetail(value));
             }
-            if (value.startsWith("REF")) {
+            if (value.startsWith("#-#-#REF")) {
                 String[] refValue = value.split("\\*");
                 switch (refValue[1]) {
                     case "0F" -> allREF.setRefSubscriberIdentifier(refSubscriberIdentifier(value));
@@ -264,10 +280,10 @@ public class EdiServiceImpl implements EdiService {
                             refMemberSupplementalIdentifierList.add(refMemberSupplementalIdentifier(value));
                 }
             }
-            if (value.startsWith("DTP")) {
+            if (value.startsWith("#-#-#DTP")) {
                 dtpMemberLevelDatesList.add(dtpMemberLevelDates(value));
             }
-            if (value.startsWith("NM1")) {
+            if (value.startsWith("#-#-#NM1")) {
                 String[] nm1Value = value.split("\\*");
                 switch (nm1Value[1]) {
                     case "74", "IL" -> allNM1.setLoop2100A(loop2100A(value));
@@ -280,13 +296,13 @@ public class EdiServiceImpl implements EdiService {
                     default -> allNM1.setLoop2100H(loop2100H(value));
                 }
             }
-            if (value.startsWith("DSB")) {
+            if (value.startsWith("#-#-#DSB")) {
                 loop2200List.add(loop2200(value));
             }
-            if (value.startsWith("HD")) {
+            if (value.startsWith("#-#-#HD")) {
                 loop2300List.add(loop2300(value));
             }
-            if (value.startsWith("LS")) {
+            if (value.startsWith("#-#-#LS")) {
                 loop2000.setLoopLS(loopLS(value));
             }
         }
@@ -304,13 +320,13 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> lsSplit(String ins) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        if (ins.contains("LS")) {
-            String[] split = ins.split("LS");
+        if (ins.contains("#-#-#LS")) {
+            String[] split = ins.split("#-#-#LS");
             for (String value : split) {
-                if (value.startsWith("INS")) {
+                if (value.startsWith("#-#-#INS")) {
                     stringLinkedList.add(value);
                 } else {
-                    String lsAdded = "LS" + value;
+                    String lsAdded = "#-#-#LS" + value;
                     stringLinkedList.add(lsAdded);
                 }
             }
@@ -323,13 +339,13 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> hdSplit(LinkedList<String> insList) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         for (String insValue : insList) {
-            if (insValue.contains("HD")) {
-                String[] split = insValue.split("HD");
+            if (insValue.contains("#-#-#HD")) {
+                String[] split = insValue.split("#-#-#HD");
                 for (String value : split) {
-                    if (value.startsWith("INS")) {
+                    if (value.startsWith("#-#-#INS")) {
                         stringLinkedList.add(value);
                     } else {
-                        String hdAdded = "HD" + value;
+                        String hdAdded = "#-#-#HD" + value;
                         stringLinkedList.add(hdAdded);
                     }
                 }
@@ -343,13 +359,13 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> dsbSplit(LinkedList<String> hdList) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         for (String hdValue : hdList) {
-            if (hdValue.contains("DSB")) {
-                String[] split = hdValue.split("DSB");
+            if (hdValue.contains("#-#-#DSB")) {
+                String[] split = hdValue.split("#-#-#DSB");
                 for (String value : split) {
-                    if (value.startsWith("INS")) {
+                    if (value.startsWith("#-#-#INS")) {
                         stringLinkedList.add(value);
                     } else {
-                        String hdAdded = "DSB" + value;
+                        String hdAdded = "#-#-#DSB" + value;
                         stringLinkedList.add(hdAdded);
                     }
                 }
@@ -363,13 +379,13 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> nm1Split(LinkedList<String> dsbList) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         for (String dsbValue : dsbList) {
-            if (dsbValue.contains("NM1")) {
-                String[] split = dsbValue.split("NM1");
+            if (dsbValue.contains("#-#-#NM1")) {
+                String[] split = dsbValue.split("#-#-#NM1");
                 for (String value : split) {
-                    if (value.startsWith("INS")) {
+                    if (value.startsWith("#-#-#INS")) {
                         stringLinkedList.add(value);
                     } else {
-                        String hdAdded = "NM1" + value;
+                        String hdAdded = "#-#-#NM1" + value;
                         stringLinkedList.add(hdAdded);
                     }
                 }
@@ -384,8 +400,8 @@ public class EdiServiceImpl implements EdiService {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> insSplitList;
         for (String insValue : insList) {
-            if (insValue.contains("INS")) {
-                if (insValue.startsWith("INS")) {
+            if (insValue.contains("#-#-#INS")) {
+                if (insValue.startsWith("#-#-#INS")) {
                     insSplitList = tiltSplit(insValue);
                     stringLinkedList.addAll(insSplitList);
                 }
@@ -448,34 +464,34 @@ public class EdiServiceImpl implements EdiService {
         List<AMT_MemberPolicyAmounts> amtMemberPolicyAmountsList = new LinkedList<>();
         List<LUI_MemberLanguage> luiMemberLanguageList = new LinkedList<>();
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100A.setNm1MemberName(nm1MemberName(loopValue));
             }
-            if (loopValue.startsWith("PER")) {
+            if (loopValue.startsWith("#-#-#PER")) {
                 loop2100A.setPerMemberCommunicationsNumbers(perMemberCommunicationsNumbers(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100A.setN3MemberResidenceStreetAddress(n3MemberResidenceStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100A.setN4MemberCityStateZipCode(n4MemberCityStateZipCode(loopValue));
             }
-            if (loopValue.startsWith("DMG")) {
+            if (loopValue.startsWith("#-#-#DMG")) {
                 loop2100A.setDmgMemberDemographics(dmgMemberDemographics(loopValue));
             }
-            if (loopValue.startsWith("EC")) {
+            if (loopValue.startsWith("#-#-#EC")) {
                 ecEmploymentClassList.add(ecEmploymentClass(loopValue));
             }
-            if (loopValue.startsWith("ICM")) {
+            if (loopValue.startsWith("#-#-#ICM")) {
                 loop2100A.setIcmMemberIncome(icmMemberIncome(loopValue));
             }
-            if (loopValue.startsWith("AMT")) {
+            if (loopValue.startsWith("#-#-#AMT")) {
                 amtMemberPolicyAmountsList.add(amtMemberPolicyAmounts(loopValue));
             }
-            if (loopValue.startsWith("HLH")) {
+            if (loopValue.startsWith("#-#-#HLH")) {
                 loop2100A.setHlhMemberHealthInformation(hlhMemberHealthInformation(loopValue));
             }
-            if (loopValue.startsWith("LUI")) {
+            if (loopValue.startsWith("#-#-#LUI")) {
                 luiMemberLanguageList.add(luiMemberLanguage(loopValue));
             }
         }
@@ -489,10 +505,10 @@ public class EdiServiceImpl implements EdiService {
         Loop2100B loop2100B = new Loop2100B();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100B.setNm1IncorrectMemberName(nm1IncorrectMemberName(loopValue));
             }
-            if (loopValue.startsWith("DMG")) {
+            if (loopValue.startsWith("#-#-#DMG")) {
                 loop2100B.setDmgIncorrectMemberDemographics(dmgIncorrectMemberDemographics(loopValue));
             }
         }
@@ -503,13 +519,13 @@ public class EdiServiceImpl implements EdiService {
         Loop2100C loop2100C = new Loop2100C();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100C.setNm1MemberMailingAddress(nm1MemberMailingAddress(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100C.setN3MemberMailStreetAddress(n3MemberMailStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100C.setN4MemberMailCityStateZipCode(n4MemberMailCityStateZipCode(loopValue));
             }
         }
@@ -520,16 +536,16 @@ public class EdiServiceImpl implements EdiService {
         Loop2100D loop2100D = new Loop2100D();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100D.setNm1MemberEmployer(nm1MemberEmployer(loopValue));
             }
-            if (loopValue.startsWith("PER")) {
+            if (loopValue.startsWith("#-#-#PER")) {
                 loop2100D.setPerMemberEmployerCommunicationsNumbers(perMemberEmployerCommunicationsNumbers(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100D.setN3MemberEmployerStreetAddress(n3MemberEmployerStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100D.setN4MemberEmployerCityStateZipCode(n4MemberEmployerCityStateZipCode(loopValue));
             }
         }
@@ -540,16 +556,16 @@ public class EdiServiceImpl implements EdiService {
         Loop2100E loop2100E = new Loop2100E();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100E.setNm1MemberSchool(nm1MemberSchool(loopValue));
             }
-            if (loopValue.startsWith("PER")) {
+            if (loopValue.startsWith("#-#-#PER")) {
                 loop2100E.setPerMemberSchoolCommunicationsNumbers(perMemberSchoolCommunicationsNumbers(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100E.setN3MemberSchoolStreetAddress(n3MemberSchoolStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100E.setN4MemberSchoolCityStateZipCode(n4MemberSchoolCityStateZipCode(loopValue));
             }
         }
@@ -560,16 +576,16 @@ public class EdiServiceImpl implements EdiService {
         Loop2100F loop2100F = new Loop2100F();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100F.setNm1CustodialParent(nm1CustodialParent(loopValue));
             }
-            if (loopValue.startsWith("PER")) {
+            if (loopValue.startsWith("#-#-#PER")) {
                 loop2100F.setPerCustodialParentCommunicationsNumbers(perCustodialParentCommunicationsNumbers(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100F.setN3CustodialParentStreetAddress(n3CustodialParentStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100F.setN4CustodialParentCityStateZipCode(n4CustodialParentCityStateZipCode(loopValue));
             }
         }
@@ -580,16 +596,16 @@ public class EdiServiceImpl implements EdiService {
         Loop2100G loop2100G = new Loop2100G();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100G.setNm1ResponsiblePerson(nm1ResponsiblePerson(loopValue));
             }
-            if (loopValue.startsWith("PER")) {
+            if (loopValue.startsWith("#-#-#PER")) {
                 loop2100G.setPerResponsiblePersonCommunicationsNumbers(perResponsiblePersonCommunicationsNumbers(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100G.setN3ResponsiblePersonStreetAddress(n3ResponsiblePersonStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100G.setN4ResponsiblePersonCityStateZipCode(n4ResponsiblePersonCityStateZipCode(loopValue));
             }
         }
@@ -600,13 +616,13 @@ public class EdiServiceImpl implements EdiService {
         Loop2100H loop2100H = new Loop2100H();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("NM1")) {
+            if (loopValue.startsWith("#-#-#NM1")) {
                 loop2100H.setNm1DropOffLocation(nm1DropOffLocation(loopValue));
             }
-            if (loopValue.startsWith("N3")) {
+            if (loopValue.startsWith("#-#-#N3")) {
                 loop2100H.setN3DropOffLocationStreetAddress(n3DropOffLocationStreetAddress(loopValue));
             }
-            if (loopValue.startsWith("N4")) {
+            if (loopValue.startsWith("#-#-#N4")) {
                 loop2100H.setN4DropOffLocationCityStateZipCode(n4DropOffLocationCityStateZipCode(loopValue));
             }
         }
@@ -618,10 +634,10 @@ public class EdiServiceImpl implements EdiService {
         List<DTP_DisabilityEligibilityDates> dtpDisabilityEligibilityDatesList = new LinkedList<>();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String loopValue : loopSplitList) {
-            if (loopValue.startsWith("DSB")) {
+            if (loopValue.startsWith("#-#-#DSB")) {
                 loop2200.setDsbDisabilityInformation(dsbDisabilityInformation(loopValue));
             }
-            if (loopValue.startsWith("DTP")) {
+            if (loopValue.startsWith("#-#-#DTP")) {
                 dtpDisabilityEligibilityDatesList.add(dtpDisabilityEligibilityDates(loopValue));
             }
         }
@@ -641,34 +657,34 @@ public class EdiServiceImpl implements EdiService {
         LinkedList<String> cobSplitList = cobSplit(loopString);
         LinkedList<String> valueList = lxSplit(cobSplitList);
         for (String loopValue : valueList) {
-            if (loopValue.startsWith("HD")) {
+            if (loopValue.startsWith("#-#-#HD")) {
                 LinkedList<String> hdSplitList = tiltSplit(loopString);
                 for (String value : hdSplitList) {
-                    if (value.startsWith("HD")) {
+                    if (value.startsWith("#-#-#HD")) {
                         loop2300.setHdHealthCoverage(hdHealthCoverage(value));
                     }
-                    if (value.startsWith("DTP")) {
+                    if (value.startsWith("#-#-#DTP")) {
                         dtpHealthCoverageDatesList.add(dtpHealthCoverageDates(value));
                     }
-                    if (value.startsWith("AMT")) {
+                    if (value.startsWith("#-#-#AMT")) {
                         amtHealthCoveragePolicyList.add(amtHealthCoveragePolicy(value));
                     }
-                    if (value.startsWith("REF")) {
+                    if (value.startsWith("#-#-#REF")) {
                         String[] refValue = value.split("\\*");
                         switch (refValue[1]) {
                             case "17", "1L", "ZZ" ->
                                     refHealthCoveragePolicyNumberList.add(refHealthCoveragePolicyNumber(value));
                         }
                     }
-                    if (value.startsWith("IDC")) {
+                    if (value.startsWith("#-#-#IDC")) {
                         idcIdentificationCardList.add(idcIdentificationCard(value));
                     }
                 }
             }
-            if (loopValue.startsWith("LX")) {
+            if (loopValue.startsWith("#-#-#LX")) {
                 loop2310List.add(loop2310(loopValue));
             }
-            if (loopValue.startsWith("COB")) {
+            if (loopValue.startsWith("#-#-#COB")) {
                 loop2320List.add(loop2320(loopValue));
             }
         }
@@ -685,13 +701,13 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> lxSplit(LinkedList<String> lxList) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         for (String lxValue : lxList) {
-            if (lxValue.contains("LX")) {
-                String[] split = lxValue.split("LX");
+            if (lxValue.contains("#-#-#LX")) {
+                String[] split = lxValue.split("#-#-#LX");
                 for (String value : split) {
-                    if (value.startsWith("HD")) {
+                    if (value.startsWith("#-#-#HD")) {
                         stringLinkedList.add(value);
                     } else {
-                        String lxAdded = "LX" + value;
+                        String lxAdded = "#-#-#LX" + value;
                         stringLinkedList.add(lxAdded);
                     }
                 }
@@ -704,13 +720,13 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> cobSplit(String hdString) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        if (hdString.contains("COB")) {
-            String[] split = hdString.split("COB");
+        if (hdString.contains("#-#-#COB")) {
+            String[] split = hdString.split("#-#-#COB");
             for (String value : split) {
-                if (value.startsWith("HD")) {
+                if (value.startsWith("#-#-#HD")) {
                     stringLinkedList.add(value);
                 } else {
-                    String cobAdded = "COB" + value;
+                    String cobAdded = "#-#-#COB" + value;
                     stringLinkedList.add(cobAdded);
                 }
             }
@@ -726,25 +742,25 @@ public class EdiServiceImpl implements EdiService {
         List<PER_ProviderCommunicationsNumbers> perProviderCommunicationsNumbersList = new LinkedList<>();
         LinkedList<String> lxSplitList = tiltSplit(loopString);
         for (String value : lxSplitList) {
-            if (value.startsWith("LX")) {
+            if (value.startsWith("#-#-#LX")) {
                 loop2310.setLxProviderInformation(lxProviderInformation(value));
             }
-            if (value.startsWith("NM1")) {
+            if (value.startsWith("#-#-#NM1")) {
                 String[] nm1Value = value.split("\\*");
                 switch (nm1Value[1]) {
                     case "3D", "OD", "P3", "QA", "QN", "Y2" -> loop2310.setNm1ProviderName(nm1ProviderName(value));
                 }
             }
-            if (value.startsWith("N3")) {
+            if (value.startsWith("#-#-#N3")) {
                 n3ProviderAddressList.add(n3ProviderAddress(value));
             }
-            if (value.startsWith("N4")) {
+            if (value.startsWith("#-#-#N4")) {
                 loop2310.setN4ProviderCityStateZipCode(n4ProviderCityStateZipCode(value));
             }
-            if (value.startsWith("PER")) {
+            if (value.startsWith("#-#-#PER")) {
                 perProviderCommunicationsNumbersList.add(perProviderCommunicationsNumbers(value));
             }
-            if (value.startsWith("PLA")) {
+            if (value.startsWith("#-#-#PLA")) {
                 loop2310.setPlaProviderChangeReason(plaProviderChangeReason(value));
             }
         }
@@ -755,13 +771,13 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> cobNm1Split(String hdString) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        if (hdString.contains("NM1")) {
-            String[] split = hdString.split("NM1");
+        if (hdString.contains("#-#-#NM1")) {
+            String[] split = hdString.split("#-#-#NM1");
             for (String value : split) {
-                if (value.startsWith("COB")) {
+                if (value.startsWith("#-#-#COB")) {
                     stringLinkedList.add(value);
                 } else {
-                    String nm1Added = "NM1" + value;
+                    String nm1Added = "#-#-#NM1" + value;
                     stringLinkedList.add(nm1Added);
                 }
             }
@@ -778,25 +794,25 @@ public class EdiServiceImpl implements EdiService {
         List<Loop2330> loop2330List = new LinkedList<>();
         LinkedList<String> cobSplitList = cobNm1Split(loopString);
         for (String listValue : cobSplitList) {
-            if (listValue.startsWith("COB")) {
+            if (listValue.startsWith("#-#-#COB")) {
                 LinkedList<String> splitList = tiltSplit(listValue);
                 for (String value : splitList) {
-                    if (value.startsWith("COB")) {
+                    if (value.startsWith("#-#-#COB")) {
                         loop2320.setCobCoordinationOfBenefits(cobCoordinationOfBenefits(value));
                     }
-                    if (value.startsWith("REF")) {
+                    if (value.startsWith("#-#-#REF")) {
                         String[] refValue = value.split("\\*");
                         switch (refValue[1]) {
                             case "60", "6P", "A6", "SY", "ZZ" ->
                                     refAdditionalCoordinationOfBenefitsIdentifiersList.add(refAdditionalCoordinationOfBenefitsIdentifiers(value));
                         }
                     }
-                    if (value.startsWith("DTP")) {
+                    if (value.startsWith("#-#-#DTP")) {
                         dtpCoordinationOfBenefitsEligibilityDatesList.add(dtpCoordinationOfBenefitsEligibilityDates(value));
                     }
                 }
             }
-            if (listValue.startsWith("NM1")) {
+            if (listValue.startsWith("#-#-#NM1")) {
                 loop2330List.add(loop2330(listValue));
             }
 
@@ -811,16 +827,16 @@ public class EdiServiceImpl implements EdiService {
         Loop2330 loop2330 = new Loop2330();
         LinkedList<String> loopSplitList = tiltSplit(loopString);
         for (String value : loopSplitList) {
-            if (value.startsWith("NM1")) {
+            if (value.startsWith("#-#-#NM1")) {
                 loop2330.setNm1CoordinationOfBenefitsRelatedEntity(nm1CoordinationOfBenefitsRelatedEntity(value));
             }
-            if (value.startsWith("N3")) {
+            if (value.startsWith("#-#-#N3")) {
                 loop2330.setN3CoordinationOfBenefitsRelatedEntityAddress(n3CoordinationOfBenefitsRelatedEntityAddress(value));
             }
-            if (value.startsWith("N4")) {
+            if (value.startsWith("#-#-#N4")) {
                 loop2330.setN4CoordinationOfBenefitsOtherInsuranceCompanyCityStateZipCode(n4CoordinationOfBenefitsOtherInsuranceCompanyCityStateZipCode(value));
             }
-            if (value.startsWith("PER")) {
+            if (value.startsWith("#-#-#PER")) {
                 loop2330.setPerAdministrativeCommunicationsContact(perAdministrativeCommunicationsContact(value));
             }
         }
@@ -832,13 +848,13 @@ public class EdiServiceImpl implements EdiService {
         LinkedList<String> leSpliList = leSplit(loopString);
         List<Loop2700> loop2700List = new LinkedList<>();
         for (String value : leSpliList) {
-            if (value.startsWith("LS")) {
+            if (value.startsWith("#-#-#LS")) {
                 loopLS.setLsAdditionalReportingCategories(lsAdditionalReportingCategories(value));
             }
-            if (value.startsWith("LX")) {
+            if (value.startsWith("#-#-#LX")) {
                 loop2700List.add(loop2700(value));
             }
-            if (value.startsWith("LE")) {
+            if (value.startsWith("#-#-#LE")) {
                 loopLS.setLeAdditionalReportingCategoriesTermination(leAdditionalReportingCategoriesTermination(value));
             }
         }
@@ -850,10 +866,10 @@ public class EdiServiceImpl implements EdiService {
         Loop2700 loop2700 = new Loop2700();
         LinkedList<String> loopSplitList = lxN1Split(lxString);
         for (String value : loopSplitList) {
-            if (value.startsWith("LX")) {
+            if (value.startsWith("#-#-#LX")) {
                 loop2700.setLxMemberReportingCategories(lxMemberReportingCategories(value));
             }
-            if (value.startsWith("N1")) {
+            if (value.startsWith("#-#-#N1")) {
                 loop2700.setLoop2750(loop2750(value));
             }
         }
@@ -864,13 +880,13 @@ public class EdiServiceImpl implements EdiService {
         Loop2750 loop2750 = new Loop2750();
         LinkedList<String> loopSplitList = tiltSplit(lxString);
         for (String value : loopSplitList) {
-            if (value.startsWith("N1")) {
+            if (value.startsWith("#-#-#N1")) {
                 loop2750.setN1ReportingCategory(n1ReportingCategory(value));
             }
-            if (value.startsWith("REF")) {
+            if (value.startsWith("#-#-#REF")) {
                 loop2750.setRefReportingCategoryReference(refReportingCategoryReference(value));
             }
-            if (value.startsWith("DTP")) {
+            if (value.startsWith("#-#-#DTP")) {
                 loop2750.setDtpReportingCategoryDate(dtpReportingCategoryDate(value));
             }
         }
@@ -880,17 +896,17 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> leSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> leLXSplitList;
-        String[] split = ediData.split("LE");
+        String[] split = ediData.split("#-#-#LE");
         for (String value : split) {
-            if (value.startsWith("LS")) {
-                if (value.contains("LX")) {
+            if (value.startsWith("#-#-#LS")) {
+                if (value.contains("#-#-#LX")) {
                     leLXSplitList = leLXSplit(value);
                     stringLinkedList.addAll(leLXSplitList);
                 } else {
                     stringLinkedList.add(value);
                 }
             } else {
-                String leAdded = "LE" + value;
+                String leAdded = "#-#-#LE" + value;
                 stringLinkedList.add(leAdded);
             }
         }
@@ -899,12 +915,12 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> leLXSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        String[] split = ediData.split("LX");
+        String[] split = ediData.split("#-#-#LX");
         for (String value : split) {
-            if (value.startsWith("LS")) {
+            if (value.startsWith("#-#-#LS")) {
                 stringLinkedList.add(value);
             } else {
-                String leAdded = "LX" + value;
+                String leAdded = "#-#-#LX" + value;
                 stringLinkedList.add(leAdded);
             }
         }
@@ -913,12 +929,12 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> lxN1Split(String lxString) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        String[] split = lxString.split("N1");
+        String[] split = lxString.split("#-#-#N1");
         for (String value : split) {
-            if (value.startsWith("LX")) {
+            if (value.startsWith("#-#-#LX")) {
                 stringLinkedList.add(value);
             } else {
-                String n1Added = "N1" + value;
+                String n1Added = "#-#-#N1" + value;
                 stringLinkedList.add(n1Added);
             }
         }
@@ -1199,12 +1215,12 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> gsSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        String[] split = ediData.split("GS");
+        String[] split = ediData.split("#-#-#GS");
         for (String value : split) {
-            if (value.startsWith("ISA")) {
+            if (value.startsWith("#-#-#ISA")) {
                 stringLinkedList.add(value);
             } else {
-                String gsAdded = "GS" + value;
+                String gsAdded = "#-#-#GS" + value;
                 stringLinkedList.add(gsAdded);
             }
         }
@@ -1213,12 +1229,12 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> iaeSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        String[] split = ediData.split("IEA");
+        String[] split = ediData.split("#-#-#IEA");
         for (String value : split) {
-            if (value.startsWith("GS")) {
+            if (value.startsWith("#-#-#GS")) {
                 stringLinkedList.add(value);
             } else {
-                String iaeAdded = "IEA" + value;
+                String iaeAdded = "#-#-#IEA" + value;
                 stringLinkedList.add(iaeAdded);
             }
         }
@@ -1228,13 +1244,13 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> stSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> geSplitList;
-        String[] split = ediData.split("ST");
+        String[] split = ediData.split("#-#-#ST");
         for (String value : split) {
-            if (value.startsWith("GS")) {
+            if (value.startsWith("#-#-#GS")) {
                 stringLinkedList.add(value);
             } else {
-                String stAdded = "ST" + value;
-                if (stAdded.contains("GE")) {
+                String stAdded = "#-#-#ST" + value;
+                if (stAdded.contains("#-#-#GE")) {
                     geSplitList = geSplit(stAdded);
                     stringLinkedList.addAll(geSplitList);
                 } else {
@@ -1247,12 +1263,12 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> geSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        String[] split = ediData.split("GE");
+        String[] split = ediData.split("#-#-#GE");
         for (String value : split) {
-            if (value.startsWith("ST")) {
+            if (value.startsWith("#-#-#ST")) {
                 stringLinkedList.add(value);
             } else {
-                String geAdded = "GE" + value;
+                String geAdded = "#-#-#GE" + value;
                 stringLinkedList.add(geAdded);
             }
         }
@@ -1262,15 +1278,15 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> seSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> insSplitList;
-        String[] split = ediData.split("SE");
+        String[] split = ediData.split("#-#-#SE");
         for (String value : split) {
-            if (value.startsWith("ST")) {
-                if (value.contains("INS")) {
+            if (value.startsWith("#-#-#ST")) {
+                if (value.contains("#-#-#INS")) {
                     insSplitList = insSplit(value);
                     stringLinkedList.addAll(insSplitList);
                 }
             } else {
-                String seAdded = "SE" + value;
+                String seAdded = "#-#-#SE" + value;
                 stringLinkedList.add(seAdded);
             }
         }
@@ -1281,12 +1297,12 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> bgnSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> n1SplitList;
-        String[] split = ediData.split("BGN");
+        String[] split = ediData.split("#-#-#BGN");
         for (String value : split) {
-            if (value.startsWith("ST")) {
+            if (value.startsWith("#-#-#ST")) {
                 stringLinkedList.add(value);
             } else {
-                String bgnAdded = "BGN" + value;
+                String bgnAdded = "#-#-#BGN" + value;
                 n1SplitList = n1Split(bgnAdded);
                 stringLinkedList.addAll(n1SplitList);
             }
@@ -1297,13 +1313,13 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> n1Split(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> bgnSplitList;
-        String[] split = ediData.split("N1");
+        String[] split = ediData.split("#-#-#N1");
         for (String value : split) {
-            if (value.startsWith("BGN")) {
+            if (value.startsWith("#-#-#BGN")) {
                 bgnSplitList = tiltSplit(value);
                 stringLinkedList.addAll(bgnSplitList);
             } else {
-                String n1Added = "N1" + value;
+                String n1Added = "#-#-#N1" + value;
                 stringLinkedList.add(n1Added);
             }
         }
@@ -1312,12 +1328,12 @@ public class EdiServiceImpl implements EdiService {
 
     private LinkedList<String> actSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
-        String[] split = ediData.split("ACT");
+        String[] split = ediData.split("#-#-#ACT");
         for (String value : split) {
-            if (value.startsWith("N1")) {
+            if (value.startsWith("#-#-#N1")) {
                 stringLinkedList.add(value);
             } else {
-                String actAdded = "ACT" + value;
+                String actAdded = "#-#-#ACT" + value;
                 stringLinkedList.add(actAdded);
             }
         }
@@ -1336,15 +1352,15 @@ public class EdiServiceImpl implements EdiService {
     private LinkedList<String> insSplit(String ediData) {
         LinkedList<String> stringLinkedList = new LinkedList<>();
         LinkedList<String> bgnSplitList;
-        String[] split = ediData.split("INS");
+        String[] split = ediData.split("#-#-#INS");
         for (String value : split) {
-            if (value.startsWith("ST")) {
-                if (value.contains("BGN")) {
+            if (value.startsWith("#-#-#ST")) {
+                if (value.contains("#-#-#BGN")) {
                     bgnSplitList = bgnSplit(value);
                     stringLinkedList.addAll(bgnSplitList);
                 }
             } else {
-                String insAdded = "INS" + value;
+                String insAdded = "#-#-#INS" + value;
                 stringLinkedList.add(insAdded);
             }
         }
